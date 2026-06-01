@@ -1,0 +1,426 @@
+{
+  "root": "O:\\NaNDA\\Data",
+  "topic_folder_count": 50,
+  "topic_folders": [
+    "ADI_standardized",
+    "air_conditioning",
+    "arts_entertainment_recreation",
+    "broadband",
+    "business_openclose",
+    "businesses_by_zip",
+    "childcare_keep_residential",
+    "crime",
+    "dollar_stores",
+    "eating_drinking",
+    "education_training",
+    "essential_businesses",
+    "essential_workers",
+    "grocery_stores",
+    "health_care_hrsa_dartmouth",
+    "health_care_nets",
+    "historic_redlining",
+    "HMDA",
+    "home_health_care",
+    "hospitals",
+    "imperviousness",
+    "land_cover",
+    "law_enforcement",
+    "LGBTQ",
+    "libraries",
+    "liquor_tobacco_convenience",
+    "mental_health",
+    "NHPD",
+    "opthamologists",
+    "parks",
+    "personal_care_laundromats",
+    "policing",
+    "pollution",
+    "post_offices_banks",
+    "PRISM",
+    "public_transit",
+    "recreation",
+    "religious_civic_social_orgs",
+    "retail_establishments",
+    "schools",
+    "segregation",
+    "ses_demographics",
+    "social_services",
+    "street_connectivity",
+    "traffic",
+    "training_vocation",
+    "urbanicity",
+    "voting",
+    "weather",
+    "zillow_housing_affordability"
+  ],
+  "dataset_subfolder_count": 176,
+  "dict_file_count": 543,
+  "by_ext": {
+    ".xlsx": 466,
+    ".csv": 77
+  },
+  "by_name_pattern": {
+    "*_data_dictionary.xlsx": 401,
+    "*_dictionary.csv": 71,
+    "*_dictionary.xlsx": 65,
+    "*_data_dictionary.csv": 6
+  },
+  "by_stage": {
+    "publish": 445,
+    "validate": 64,
+    "other": 34
+  },
+  "by_varname_col": {
+    "Variable": 414,
+    "variable": 121,
+    "(none)": 3,
+    "Variable Name": 5
+  },
+  "publish_header_variants": {
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Label": {
+      "count": 134,
+      "examples": [
+        "air_conditioning\\documentation\\nanda_AC_Tract10_2016_01_data_dictionary.xlsx",
+        "arts_entertainment_recreation\\artsentleisure_1990-2021\\documentation\\nanda_artsentleisure_Tract10_1990-2021_01_data_dictionary.xlsx",
+        "arts_entertainment_recreation\\artsentleisure_1990-2021\\documentation\\nanda_artsentleisure_Tract20_1990-2021_01_data_dictionary.xlsx"
+      ]
+    },
+    "variable | type | obs | unique | mean | min | max | label": {
+      "count": 118,
+      "examples": [
+        "arts_entertainment_recreation\\artsentleisure_1990-2022\\documentation\\nanda_artsentleisure_Tract10_1990-2022_dictionary.csv",
+        "arts_entertainment_recreation\\artsentleisure_1990-2022\\documentation\\nanda_artsentleisure_Tract10_1990-2022_dictionary_formatted.xlsx",
+        "arts_entertainment_recreation\\artsentleisure_1990-2022\\documentation\\nanda_artsentleisure_Tract20_1990-2022_dictionary.csv"
+      ]
+    },
+    "Variable | Type | Label": {
+      "count": 110,
+      "examples": [
+        "broadband\\broadband_fcc_zcta_2014-2020\\documentation\\nanda_brdband_zcta_2014-2020_01_data_dictionary.xlsx",
+        "essential_businesses\\documentation\\nanda_ebusiness_Tract10_2020-2021_02_data_dictionary.xlsx",
+        "essential_businesses\\documentation\\nanda_ebusiness_Tract20_2020-2021_02_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Variable Type | Obs | Not-Null Count | Mean | Min | Max | Variable Description | Data From": {
+      "count": 27,
+      "examples": [
+        "eating_drinking\\eatdrink_tract_2006-2015\\documentation\\bars_data_dictionary.xlsx",
+        "eating_drinking\\eatdrink_tract_2006-2015\\documentation\\coffee_snack_data_dictionary.xlsx",
+        "eating_drinking\\eatdrink_tract_2006-2015\\documentation\\restaurants_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | type | Obs | Unique | Mean | Min | Max | Label": {
+      "count": 5,
+      "examples": [
+        "arts_entertainment_recreation\\artsentrec_zcta_2003-2017\\documentation\\nanda_artsentrec_zcta_2003-2017_01_data_dictionary.xlsx",
+        "health_care_nets\\health_care_nets_zcta_2003-2017\\documentation\\nanda_healthcare_zcta_2003-2017_01_data_dictionary.xlsx",
+        "schools\\school_counts_tract_2000-2018\\documentation\\nanda_schoolct_tract_2000-2018_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs. | Unique | Mean | Min | Max | Label": {
+      "count": 5,
+      "examples": [
+        "PRISM\\documentation\\nanda_PRISM_all_pctpctl_Tract00_2000-2009_02P_data_dictionary.csv",
+        "PRISM\\documentation\\nanda_PRISM_all_pctpctl_Tract10_2010-2019_02P_data_dictionary.csv",
+        "PRISM\\documentation\\nanda_PRISM_all_pctpctl_Tract20_2020-2024_02P_data_dictionary.csv"
+      ]
+    },
+    "Variable | Label": {
+      "count": 4,
+      "examples": [
+        "ses_demographics\\sesdem_2018-2022\\documentation\\nanda_sesdem_Tract20_2018-2022_02_data_dictionary.xlsx",
+        "ses_demographics\\sesdem_2018-2022\\documentation\\nanda_sesdem_ZCTA20_2018-2022_02_data_dictionary.xlsx",
+        "ses_demographics\\sesdem_tract_1990-2010\\documentation\\nanda_sesdem_tract_1990-2010_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Obs | Unique | Mean | Min | Max | Type | Label": {
+      "count": 3,
+      "examples": [
+        "ADI_standardized\\documentation\\nanda_ADI_std_blckgrp_2015_01_data_dictionary.xlsx",
+        "ADI_standardized\\documentation\\nanda_ADI_std_blckgrp_2020_01_data_dictionary.xlsx",
+        "ADI_standardized\\documentation\\nanda_ADI_std_blckgrp_2022_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Label | Obs | Unique | Mean | Min | Max | Label": {
+      "count": 3,
+      "examples": [
+        "hospitals\\2023\\documentation\\nanda_hospitals_Tract10_2023_01_data_dictionary.xlsx",
+        "hospitals\\2023\\documentation\\nanda_hospitals_ZCTA10_2023_01_data_dictionary.xlsx",
+        "hospitals\\2023\\documentation\\nanda_hospitals_ZCTA20_2023_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable Name | Type | Obs | Unique | Mean | Min | Max | Variable Label": {
+      "count": 3,
+      "examples": [
+        "ses_demographics\\sesdem_tract_2000-2010\\documentation\\sesdem_data_dictionary.xlsx",
+        "ses_demographics\\sesdem_tract_2000-2010\\documentation\\sesdem_tract_2000-2010_03P_data_dictionary.xlsx",
+        "social_services\\social_services_tract_2006-2015\\documentation\\social_services_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Label | Additional information": {
+      "count": 2,
+      "examples": [
+        "broadband\\broadband_fcc_tract_2014-2018\\documentation\\data_dictionary_broadband1418.xlsx",
+        "broadband\\broadband_fcc_tract_2014-2020\\documentation\\nanda_brdband_tract_2014-2020_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Mean | Min | Max | Label": {
+      "count": 2,
+      "examples": [
+        "broadband\\broadband_tract_zcta_2025\\documentation\\nanda_broadbnd_Tract20_2025_01_data_dictionary.xlsx",
+        "broadband\\broadband_tract_zcta_2025\\documentation\\nanda_broadbnd_Zcta20_2025_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Variable Type | Obs | Non-Zero Count | Mean | Min | Max | Variable Description | Data From": {
+      "count": 2,
+      "examples": [
+        "eating_drinking\\eatdrink_tract_2006-2015\\documentation\\fastfood_data_dictionary.xlsx",
+        "retail_establishments\\retail_tract_2006-2015\\documentation\\used_merchandise_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Label | Variable | Obs | Unique | Mean | Min | Max | Label": {
+      "count": 2,
+      "examples": [
+        "hospitals\\2023\\documentation\\nanda_hospitals_Tract20_2023_01_data_dictionary.xlsx",
+        "opthamologists\\documentation\\nanda_opthamol_tract20_1990-2021_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Variable Label": {
+      "count": 2,
+      "examples": [
+        "land_cover\\landcover_tract_2001-2016\\documentation\\land_cover_dictionary.xlsx",
+        "land_cover\\landcover_zcta_2001-2016\\documentation\\landcover_zcta_2001-2016_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Label | Additional Information": {
+      "count": 1,
+      "examples": [
+        "crime\\crime_county_2002-2014\\documentation\\crime_turnover_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Label |  |  |  |  |  |  |  |  |  |  |  | ": {
+      "count": 1,
+      "examples": [
+        "essential_businesses\\documentation\\nanda_ebusiness_Tract10_2020_01_data_dictionary.xlsx"
+      ]
+    },
+    "ZCTA10 Variable | Type | Obs | Unique | Mean | Min | Max | Label": {
+      "count": 1,
+      "examples": [
+        "essential_businesses\\documentation\\nanda_ebusiness_Zcta10_2020_01_data_dictionary.xlsx"
+      ]
+    },
+    "variable | type | obs | unique | mean | min | max | label | ": {
+      "count": 1,
+      "examples": [
+        "essential_businesses\\documentation\\nanda_ebusiness_Zcta20_2020_dictionary.csv"
+      ]
+    },
+    "Variable | Type | Observations | Unique | Mean | Min | Max | Label": {
+      "count": 1,
+      "examples": [
+        "grocery_stores\\grocery_1990-2021\\documentation\\nanda_grocery_Tract10_1990-2021_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Format | Obs | Unique | Mean | Min | Max | Label": {
+      "count": 1,
+      "examples": [
+        "health_care_nets\\health_care_nets_tract_2003-2017\\documentation\\nanda_healthcare_tract_2003-2017_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Label |  |  |  |  |  |  | ": {
+      "count": 1,
+      "examples": [
+        "parks\\parks_tract20_2022\\documentation\\nanda_parks_tract20_2022_01_data_dictionary.xlsx"
+      ]
+    },
+    "Drop | Variable | Type | Obs | Unique | Mean | Min | Max | Label | Revised Label | Additional Information": {
+      "count": 1,
+      "examples": [
+        "parks\\parks_tract_2018\\documentation\\parks_turnover_data_dictionary3.xlsx"
+      ]
+    },
+    "Variable | Type | Label |  |  |  |  |  | ": {
+      "count": 1,
+      "examples": [
+        "parks\\parks_zcta20_2022\\documentation\\nanda_parks_zcta20_2022_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | type | Obs | Unique | Mean | Min | Max | variable label": {
+      "count": 1,
+      "examples": [
+        "parks\\parks_zcta_2018\\documentation\\parks_zcta_2018_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Variable label": {
+      "count": 1,
+      "examples": [
+        "post_offices_banks\\pobank_tract_2003-2017\\documentation\\nanda_pobank_tract_2003-2017_02_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Label |  |  | ": {
+      "count": 1,
+      "examples": [
+        "PRISM\\PRISM_v01\\PercentPercentile\\ppt\\documentation\\nanda_PRISM_ppt_pctpctl_Tract10_2010-2019_02_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Label | ": {
+      "count": 1,
+      "examples": [
+        "PRISM\\PRISM_v01\\PercentPercentile\\tmin\\documentation\\nanda_PRISM_tmin_fips20_2020-2024__dictionary.xlsx"
+      ]
+    },
+    "Variable Name | Type | Format | Observations | Unique | Mean | Minimum | Maximum | Variable Label | Additional Information": {
+      "count": 1,
+      "examples": [
+        "public_transit\\transit_tract_2016-2018\\documentation\\nanda_transit2018_05_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Label |  |  |  |  |  |  |  |  |  | Obs | Unique | Mean | Min | Max": {
+      "count": 1,
+      "examples": [
+        "recreation\\recreation_1990-2021\\documentation\\nanda_recreation_ZCTA20_1990-2021_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Unique | Mean | Min | Max | Label": {
+      "count": 1,
+      "examples": [
+        "religious_civic_social_orgs\\relcivsoc_tract_2003-2017\\documentation\\nanda_relcivsoc_tract_2003-2017_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Type | Label": {
+      "count": 1,
+      "examples": [
+        "retail_establishments\\retail_1990-2021\\documentation\\nanda_retail_Tract10_1990-2021_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable Name | Type | Obs | Unique | Mean | Min | Max | Label": {
+      "count": 1,
+      "examples": [
+        "ses_demographics\\sesdem_tract_2008-2017\\documentation\\ses_tract_2008-2017_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Obs | Type | Unique | Mean | Min | Max | Label": {
+      "count": 1,
+      "examples": [
+        "ses_demographics\\sesdem_tract_2008-2017\\documentation\\ses_tract_2008-2017_03_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Type | Obs | Unique | Mean | Min | Max | Variable Label | Additional Information": {
+      "count": 1,
+      "examples": [
+        "street_connectivity\\street_connectivity_tract_2010\\documentation\\nanda_stconnct_tract_2010_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | name | Obs | Unique | Mean | Min | Max | Label | Additional Information": {
+      "count": 1,
+      "examples": [
+        "urbanicity\\urbanicity_ruca_zip_2010\\documentation\\nanda_urbanicity_ruca_zip_2010_01_data_dictionary.xlsx"
+      ]
+    },
+    "Variable | Data Type | Obs | Unique | Mean | Min | Max | Variable Label | Additional Information | Source": {
+      "count": 1,
+      "examples": [
+        "urbanicity\\urbanicity_tract_2010\\documentation\\nanda_urbanicity_tract_2010_01_data_dictionary.xlsx"
+      ]
+    }
+  },
+  "published_subfolders_with_P_dta": 90,
+  "published_subfolders_with_csv_dict": 4,
+  "published_subfolders_only_xlsx_dict": [
+    "arts_entertainment_recreation\\artsentleisure_1990-2021",
+    "arts_entertainment_recreation\\artsentrec_tract_2003-2017",
+    "arts_entertainment_recreation\\artsentrec_zcta_2003-2017",
+    "broadband\\broadband_fcc_tract_2014-2018",
+    "broadband\\broadband_fcc_tract_2014-2020",
+    "broadband\\broadband_fcc_zcta_2014-2018",
+    "broadband\\broadband_fcc_zcta_2014-2020",
+    "broadband\\internet_access_acs_tract_2015-2019",
+    "broadband\\internet_access_acs_zcta_2015_2019",
+    "crime\\crime_county_2002-2014",
+    "dollar_stores\\dollar_stores_1990-2021",
+    "dollar_stores\\dollar_tract_2003-2017",
+    "dollar_stores\\dollar_zcta_2003-2017",
+    "eating_drinking\\eatdrink_1990-2021",
+    "eating_drinking\\eatdrink_tract_2003-2017",
+    "eating_drinking\\eatdrink_tract_2006-2015",
+    "eating_drinking\\eatdrink_zcta_2003-2017",
+    "education_training\\edtrain_tract_2003-2017",
+    "education_training\\edtrain_zcta_2003-2017",
+    "grocery_stores\\grocery_1990-2021",
+    "grocery_stores\\grocery_tract_2003-2017",
+    "grocery_stores\\grocery_zcta_2003-2017",
+    "health_care_nets\\health_care_nets_1990-2021",
+    "health_care_nets\\health_care_nets_tract_2003-2017",
+    "health_care_nets\\health_care_nets_zcta_2003-2017",
+    "land_cover\\landcover_tract_2001-2016",
+    "land_cover\\landcover_zcta_2001-2016",
+    "law_enforcement\\justice_safety_tract_2006-2015",
+    "law_enforcement\\lawenf_1990-2021",
+    "law_enforcement\\lawenf_tract_2003-2017",
+    "law_enforcement\\lawenf_zcta_2003-2017",
+    "liquor_tobacco_convenience\\lqtbcon_tract_2003-2017",
+    "liquor_tobacco_convenience\\lqtbcon_tractZCTA_1990-2021",
+    "liquor_tobacco_convenience\\lqtbcon_zcta_2003-2017",
+    "parks\\parks_tract_2018",
+    "parks\\parks_zcta_2018",
+    "personal_care_laundromats\\pclaund_tract_2003-2017",
+    "personal_care_laundromats\\pclaund_tractZCTA_1990-2021",
+    "personal_care_laundromats\\pclaund_zcta_2003-2017",
+    "personal_care_laundromats\\personal_services_tract_2006-2015",
+    "pollution\\polluting_sites_zcta_2000-2018",
+    "post_offices_banks\\pobank_1990-2021",
+    "post_offices_banks\\pobank_tract_2003-2017",
+    "post_offices_banks\\pobank_zcta_2003-2017",
+    "public_transit\\transit_tract2024",
+    "public_transit\\transit_tract_2016-2018",
+    "public_transit\\transit_zcta2024",
+    "public_transit\\transit_zcta_2016-2018",
+    "recreation\\recreation_1990-2021",
+    "religious_civic_social_orgs\\relcivsoc_tract_2003-2017",
+    "religious_civic_social_orgs\\relcivsoc_tract_2006-2015",
+    "religious_civic_social_orgs\\relcivsoc_zcta_2003-2017",
+    "retail_establishments\\retail_1990-2021",
+    "retail_establishments\\retail_tract_2003-2017",
+    "retail_establishments\\retail_tract_2006-2015",
+    "retail_establishments\\retail_zcta_2003-2017",
+    "schools\\neighborhood_school_gap_tract_0910_1516",
+    "schools\\neighborhood_school_gap_tract_supp_0910_1516",
+    "schools\\neighborhood_school_gap_zcta_0910_1516",
+    "schools\\neighborhood_school_gap_zcta_supp_0910_1516",
+    "schools\\school_counts_tract_2000-2018",
+    "schools\\school_counts_zcta_2000-2018",
+    "schools\\schools_district_2000-2018",
+    "ses_demographics\\sesdem_tract_1990-2010",
+    "ses_demographics\\sesdem_tract_2000-2010",
+    "ses_demographics\\sesdem_tract_2008-2017",
+    "ses_demographics\\sesdem_tract_2016-2020",
+    "ses_demographics\\sesdem_zcta_2008-2017",
+    "ses_demographics\\sesdem_zcta_2016-2020",
+    "social_services\\social_services_1990-2021",
+    "social_services\\social_services_tract_2003-2017",
+    "social_services\\social_services_tract_2006-2015",
+    "social_services\\social_services_zcta_2003-2017",
+    "street_connectivity\\street_connectivity_tract_2010",
+    "street_connectivity\\street_connectivity_tract_2020",
+    "street_connectivity\\street_connectivity_zcta_2010",
+    "street_connectivity\\street_connectivity_zcta_2020",
+    "traffic\\street_type_tract_2010",
+    "traffic\\street_type_zcta_2010",
+    "traffic\\traffic_volume_interpolated_zcta_1963-2019",
+    "traffic\\traffic_volume_noninterpolated_tract_1963-2019",
+    "urbanicity\\urbanicity_tract_2010",
+    "voting\\voting_county_2004-2018"
+  ],
+  "published_subfolders_no_publish_dict": [
+    "arts_entertainment_recreation\\artsentrec_tract_2006-2015",
+    "pollution\\polluting_sites_tract_2000-2018",
+    "religious_civic_social_orgs\\relcivsoc_1990-2021"
+  ],
+  "unparseable": [
+    {
+      "relpath": "street_connectivity\\street_connectivity_tract_2020\\documentation\\nanda_stconnect_tract_2020_01_data_dictionary.xlsx",
+      "error": "BadZipFile: File is not a zip file"
+    }
+  ]
+}
