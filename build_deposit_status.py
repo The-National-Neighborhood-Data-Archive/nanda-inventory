@@ -39,7 +39,8 @@ OUT_CSV = REPO / "deposit_status.csv"
 TWIN_OVERRIDE = {"301419", "302178"}
 
 COLUMNS = ["study_id", "archive", "deposit_via", "status", "seed_doi",
-           "resolve_doi_for_datacite", "related_to_doi", "note"]
+           "resolve_doi_for_datacite", "related_to_doi", "topic_folder",
+           "topic_review", "note"]
 
 # --- Curatorial baseline (the human-judgment layer; can't be derived from ICPSR or O:) ----
 # `status` vocabulary (the three-value model): current | alternate-deposit | superseded.
@@ -69,6 +70,42 @@ DEFAULT_STATUS = "current"   # known bootstrap deposits not in BASELINE
 NEEDS_REVIEW = ""            # blank -> needs review, for deposits surfacing after bootstrap
 # Legacy placeholder values that predate the curatorial model; treat as uncurated.
 UNCURATED = {"", "published"}
+
+# --- Curated topic_folder map (study_id -> O: topic folder under O:\NaNDA\Data) -----------
+# The deterministic join key. Filled ONLY where the O: shortname is unambiguous. Many-to-one
+# is expected (sibling deposits share a folder). Anything not here is left blank and listed in
+# TOPIC_REVIEW for a human call — a wrong topic_folder would silently join to the wrong files.
+TOPIC = {
+    "200038": "libraries", "207966": "religious_civic_social_orgs",
+    "208207": "social_services", "208366": "post_offices_banks",
+    "208682": "retail_establishments", "208684": "law_enforcement",
+    "208751": "eating_drinking", "208906": "personal_care_laundromats",
+    "208907": "liquor_tobacco_convenience", "209050": "health_care_nets",
+    "209163": "arts_entertainment_recreation", "209164": "recreation",
+    "209313": "grocery_stores", "209324": "dollar_stores",
+    "210581": "ADI_standardized", "222263": "opthamologists", "230941": "PRISM",
+    "237305": "air_conditioning", "301419": "essential_businesses",
+    "302178": "essential_workers", "302343": "training_vocation",
+    "302937": "broadband", "305511": "parks", "38506": "voting",
+    "38528": "ses_demographics", "38559": "broadband", "38567": "broadband",
+    "38569": "schools", "38579": "schools", "38580": "street_connectivity",
+    "38584": "traffic", "38585": "traffic", "38586": "parks", "38597": "pollution",
+    "38605": "public_transit", "38606": "urbanicity", "38649": "crime",
+    "38858": "weather", "38974": "essential_workers", "39093": "HMDA",
+}
+# Deposits deliberately left blank, with the reason a human needs to resolve.
+TOPIC_REVIEW = {
+    "38598":  "land_cover cluster (canonical) - confirm folder; shared w/ 220701, 110663",
+    "220701": "alternate-deposit; land_cover cluster - confirm folder",
+    "110663": "superseded; land_cover cluster - confirm folder + relationship",
+    "39378":  "hospitals cluster (canonical) - confirm folder; shared w/ 222901",
+    "222901": "alternate-deposit; hospitals cluster - confirm folder",
+    "127681": "education_training co-canonical sibling (Tract) - confirm folder",
+    "127682": "education_training co-canonical sibling (ZCTA) - confirm folder",
+    "120088": "ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)",
+    "141121": "historic_redlining folder exists but Layer 2 found no dataset units - verify",
+    "190141": "Alzheimer's special data release - O: folder not identified",
+}
 
 
 def strip_doi_version(doi: str) -> str:
@@ -100,26 +137,44 @@ def load_existing_curation() -> dict[str, dict]:
         return {
             r["study_id"]: {"status": r.get("status", ""),
                             "related_to_doi": r.get("related_to_doi", ""),
+                            "topic_folder": r.get("topic_folder", ""),
+                            "topic_review": r.get("topic_review", ""),
                             "note": r.get("note", "")}
             for r in csv.DictReader(fh)
         }
 
 
-def curate(study_id: str, existing: dict[str, dict]) -> tuple[str, str, str]:
-    """Resolve the curatorial (status, related_to_doi, note) for a deposit.
+def curate(study_id: str, existing: dict[str, dict]) -> dict:
+    """Resolve all curatorial fields for a deposit.
 
-    Precedence: a prior human-curated row wins (never clobbered); else the bootstrap
-    BASELINE; else `current` for deposits known at bootstrap; else blank (needs review)
-    for deposits surfacing from the seed after bootstrap.
+    Precedence: a prior human-curated value wins (never clobbered); else the bootstrap
+    baseline; else a sensible default. topic_folder is preserved if hand-filled; otherwise
+    drafted from TOPIC, and left blank with a TOPIC_REVIEW reason where ambiguous.
     """
-    ex = existing.get(study_id)
-    if ex is not None and (ex.get("status") or "").strip() not in UNCURATED:
-        return ex["status"].strip(), ex.get("related_to_doi", "").strip(), ex.get("note", "").strip()
-    if study_id in BASELINE:
-        return BASELINE[study_id]
-    if ex is not None:  # known at bootstrap, no special classification
-        return DEFAULT_STATUS, ex.get("related_to_doi", "").strip(), ex.get("note", "").strip()
-    return NEEDS_REVIEW, "", "NEW DEPOSIT - needs review"
+    ex = existing.get(study_id) or {}
+    # status / related_to_doi / note
+    if (ex.get("status") or "").strip() not in UNCURATED:
+        status = ex["status"].strip()
+        related = ex.get("related_to_doi", "").strip()
+        note = ex.get("note", "").strip()
+    elif study_id in BASELINE:
+        status, related, note = BASELINE[study_id]
+    elif existing.get(study_id) is not None:
+        status, related = DEFAULT_STATUS, ex.get("related_to_doi", "").strip()
+        note = ex.get("note", "").strip()
+    else:
+        status, related, note = NEEDS_REVIEW, "", "NEW DEPOSIT - needs review"
+
+    # topic_folder (preserve hand edit, else draft); topic_review reason only while blank
+    topic = (ex.get("topic_folder") or "").strip() or TOPIC.get(study_id, "")
+    if topic:
+        topic_review = ""
+    else:
+        topic_review = (ex.get("topic_review") or "").strip() or \
+            TOPIC_REVIEW.get(study_id, "needs topic_folder review")
+
+    return {"status": status, "related_to_doi": related, "note": note,
+            "topic_folder": topic, "topic_review": topic_review}
 
 
 def main() -> int:
@@ -133,16 +188,18 @@ def main() -> int:
         sid = s["study_id"].strip()
         seed_doi = s["doi"].strip()
         resolve = resolve_doi_for(sid, seed_doi, s.get("version", ""))
-        status, related, note = curate(sid, curated)
+        cur = curate(sid, curated)
         rows.append({
             "study_id": sid,
             "archive": s["archive"].strip(),
             "deposit_via": s.get("deposit_via", "").strip(),
-            "status": status,                       # curatorial role (not seed published flag)
+            "status": cur["status"],                # curatorial role (not seed published flag)
             "seed_doi": seed_doi,
             "resolve_doi_for_datacite": resolve,
-            "related_to_doi": related,
-            "note": note,
+            "related_to_doi": cur["related_to_doi"],
+            "topic_folder": cur["topic_folder"],
+            "topic_review": cur["topic_review"],
+            "note": cur["note"],
         })
 
     with OUT_CSV.open("w", encoding="utf-8", newline="") as fh:
@@ -166,6 +223,13 @@ def main() -> int:
     print(f"  rows with related_to_doi ({len(related)}):")
     for r in related:
         print(f"      {r['study_id']:>7}  [{r['status']}]  -> {r['related_to_doi']}")
+
+    topic_filled = [r for r in rows if r["topic_folder"]]
+    topic_blank = [r for r in rows if not r["topic_folder"]]
+    print(f"  topic_folder filled            : {len(topic_filled)} / {len(rows)}")
+    print(f"  topic_folder BLANK (review)    : {len(topic_blank)}")
+    for r in topic_blank:
+        print(f"      {r['study_id']:>7}  {r['topic_review']}")
     return 0
 
 
