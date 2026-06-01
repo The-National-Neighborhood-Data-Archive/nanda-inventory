@@ -164,13 +164,11 @@ def curate(study_id: str, existing: dict[str, dict]) -> dict:
     else:
         status, related, note = NEEDS_REVIEW, "", "NEW DEPOSIT - needs review"
 
-    # topic_folder (preserve hand edit, else draft); topic_review reason only while blank
+    # topic_folder is curatorial (preserve hand edit, else draft from TOPIC).
+    # topic_review is a DERIVED hint that refreshes each run (not hand-curated) — it only
+    # shows while topic_folder is blank.
     topic = (ex.get("topic_folder") or "").strip() or TOPIC.get(study_id, "")
-    if topic:
-        topic_review = ""
-    else:
-        topic_review = (ex.get("topic_review") or "").strip() or \
-            TOPIC_REVIEW.get(study_id, "needs topic_folder review")
+    topic_review = "" if topic else TOPIC_REVIEW.get(study_id, "needs topic_folder review")
 
     return {"status": status, "related_to_doi": related, "note": note,
             "topic_folder": topic, "topic_review": topic_review}
