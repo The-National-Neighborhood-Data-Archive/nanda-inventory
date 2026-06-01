@@ -41,6 +41,35 @@ TWIN_OVERRIDE = {"301419", "302178"}
 COLUMNS = ["study_id", "archive", "deposit_via", "status", "seed_doi",
            "resolve_doi_for_datacite", "related_to_doi", "note"]
 
+# --- Curatorial baseline (the human-judgment layer; can't be derived from ICPSR or O:) ----
+# `status` vocabulary (the three-value model): current | alternate-deposit | superseded.
+# A blank status means "needs review" — applied to deposits that surface from the seed after
+# bootstrap, so dataset identity stays a human call rather than a silent "current".
+#
+# These five non-current classifications fell out of the dedup worklist (not title-matching):
+#   same date range as the ICPSR twin  -> alternate-deposit
+#   older vintage replaced by the twin -> superseded
+# related_to_doi points at the current canonical deposit's DOI (matchable in the catalog).
+BASELINE = {
+    # openICPSR draft E-DOI for an RDE study whose published DOI is the ICPSR-form twin.
+    "301419": ("current", "10.3886/ICPSR301419.v1",
+               "seed E-form DOI 404s at DataCite; published twin is ICPSR-form"),
+    "302178": ("current", "10.3886/ICPSR302178.v1",
+               "seed E-form DOI 404s at DataCite; published twin is ICPSR-form"),
+    # alternate openICPSR deposits of a current ICPSR study (same coverage / date range).
+    "222901": ("alternate-deposit", "10.3886/ICPSR39378.v1",
+               "alternate openICPSR deposit of ICPSR39378 (Hospitals, 2023)"),
+    "220701": ("alternate-deposit", "10.3886/ICPSR38598.v2",
+               "alternate openICPSR deposit of ICPSR38598 (Land Cover, 1985-2023)"),
+    # older vintage superseded by a current ICPSR study.
+    "110663": ("superseded", "10.3886/ICPSR38598.v2",
+               "superseded by ICPSR38598 (Land Cover); older 2001-2016 vintage"),
+}
+DEFAULT_STATUS = "current"   # known bootstrap deposits not in BASELINE
+NEEDS_REVIEW = ""            # blank -> needs review, for deposits surfacing after bootstrap
+# Legacy placeholder values that predate the curatorial model; treat as uncurated.
+UNCURATED = {"", "published"}
+
 
 def strip_doi_version(doi: str) -> str:
     return re.sub(r"[.]?[vV]\d+$", "", doi)
@@ -64,15 +93,33 @@ def resolve_doi_for(study_id: str, doi: str, version: str) -> str:
 
 
 def load_existing_curation() -> dict[str, dict]:
-    """Preserve hand-edited related_to_doi / note across re-runs, keyed by study_id."""
+    """Preserve hand-edited curatorial columns across re-runs, keyed by study_id."""
     if not OUT_CSV.exists():
         return {}
     with OUT_CSV.open("r", encoding="utf-8-sig", newline="") as fh:
         return {
-            r["study_id"]: {"related_to_doi": r.get("related_to_doi", ""),
+            r["study_id"]: {"status": r.get("status", ""),
+                            "related_to_doi": r.get("related_to_doi", ""),
                             "note": r.get("note", "")}
             for r in csv.DictReader(fh)
         }
+
+
+def curate(study_id: str, existing: dict[str, dict]) -> tuple[str, str, str]:
+    """Resolve the curatorial (status, related_to_doi, note) for a deposit.
+
+    Precedence: a prior human-curated row wins (never clobbered); else the bootstrap
+    BASELINE; else `current` for deposits known at bootstrap; else blank (needs review)
+    for deposits surfacing from the seed after bootstrap.
+    """
+    ex = existing.get(study_id)
+    if ex is not None and (ex.get("status") or "").strip() not in UNCURATED:
+        return ex["status"].strip(), ex.get("related_to_doi", "").strip(), ex.get("note", "").strip()
+    if study_id in BASELINE:
+        return BASELINE[study_id]
+    if ex is not None:  # known at bootstrap, no special classification
+        return DEFAULT_STATUS, ex.get("related_to_doi", "").strip(), ex.get("note", "").strip()
+    return NEEDS_REVIEW, "", "NEW DEPOSIT - needs review"
 
 
 def main() -> int:
@@ -86,25 +133,16 @@ def main() -> int:
         sid = s["study_id"].strip()
         seed_doi = s["doi"].strip()
         resolve = resolve_doi_for(sid, seed_doi, s.get("version", ""))
-
-        # Default curatorial values: seed the two verified twins; otherwise blank.
-        if sid in TWIN_OVERRIDE:
-            default_related = resolve  # the resolving ICPSR-form twin
-            default_note = "seed E-form DOI 404s at DataCite; published twin is ICPSR-form"
-        else:
-            default_related, default_note = "", ""
-
-        prev = curated.get(sid, {})
+        status, related, note = curate(sid, curated)
         rows.append({
             "study_id": sid,
             "archive": s["archive"].strip(),
             "deposit_via": s.get("deposit_via", "").strip(),
-            "status": s.get("status", "").strip(),
+            "status": status,                       # curatorial role (not seed published flag)
             "seed_doi": seed_doi,
             "resolve_doi_for_datacite": resolve,
-            # Preserve hand edits if present, else fall back to the computed default.
-            "related_to_doi": prev.get("related_to_doi") or default_related,
-            "note": prev.get("note") or default_note,
+            "related_to_doi": related,
+            "note": note,
         })
 
     with OUT_CSV.open("w", encoding="utf-8", newline="") as fh:
@@ -112,18 +150,22 @@ def main() -> int:
         w.writeheader()
         w.writerows(rows)
 
+    from collections import Counter
     icpsr = sum(1 for r in rows if is_icpsr_form(r["seed_doi"]) and r["study_id"] not in TWIN_OVERRIDE)
     eform = sum(1 for r in rows if not is_icpsr_form(r["seed_doi"]) and r["study_id"] not in TWIN_OVERRIDE)
     twins = [r for r in rows if r["study_id"] in TWIN_OVERRIDE]
     related = [r for r in rows if r["related_to_doi"]]
+    by_status = Counter((r["status"] or "(needs review)") for r in rows)
 
     print(f"Wrote {len(rows)} deposit rows -> {OUT_CSV}")
     print(f"  resolve as-is (ICPSR-form)     : {icpsr}")
     print(f"  resolve via base (E-form)      : {eform}")
-    print(f"  twin override (ICPSR-form twin): {len(twins)}")
-    for r in twins:
-        print(f"      {r['study_id']}  seed={r['seed_doi']}  ->  resolve={r['resolve_doi_for_datacite']}")
-    print(f"  rows with related_to_doi set   : {len(related)}")
+    print(f"  twin override (ICPSR-form twin): {len(twins)}  "
+          f"({', '.join(r['study_id'] for r in twins)})")
+    print(f"  status breakdown               : {dict(by_status)}")
+    print(f"  rows with related_to_doi ({len(related)}):")
+    for r in related:
+        print(f"      {r['study_id']:>7}  [{r['status']}]  -> {r['related_to_doi']}")
     return 0
 
 
