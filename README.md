@@ -27,14 +27,27 @@ recon/                 # Recon spike — run first, before any generator (Phase 
 requirements.txt
 ```
 
-## Pipeline (Phase 1, once generators are built — not yet)
+## Pipeline (Phase 1 — built)
 
 ```
-recon/                 ->  format census + DataCite probe  (gate: report before building)
+recon/                 ->  format census + DataCite probe  (gate: reported before building)
+build_deposit_status.py->  deposit_status.csv              (canonical curated control file)
 layer1_catalog.py      ->  data/published_catalog.csv      (DataCite enrichment per DOI)
-layer2_odrive.py       ->  data/odrive_reality.csv         (O: scan + dict parse)
-reconcile.py           ->  data/reconciliation.csv + master_inventory.xlsx
+layer2_odrive.py       ->  data/odrive_reality.csv         (O: scan + dict parse + derive)
+reconcile.py           ->  data/published_catalog_joined.csv, drift.csv, oracle_diff.csv
+                           master_inventory.xlsx           (Published | O-Drive Reality |
+                                                            Reconciliation Drift | Oracle Diff)
 ```
+
+### deposit_status.csv — the one curated input
+
+Dataset identity is a human judgment call, so the row set lives in `deposit_status.csv`, the
+single hand-curated control file (everything else is derived from ICPSR/DataCite or the O:
+drive). `build_deposit_status.py` regenerates the mechanical columns (seed-derived fields,
+`resolve_doi_for_datacite`) but **preserves** the curatorial ones — `status`
+(`current` / `alternate-deposit` / `superseded`), `related_to_doi`, `topic_folder`, `note` —
+across re-runs, never clobbering hand edits. New deposits surfacing from the seed arrive with
+a blank status (needs review), never silently `current`.
 
 ## Inputs
 
@@ -54,8 +67,16 @@ reconcile.py           ->  data/reconciliation.csv + master_inventory.xlsx
 
 ```powershell
 pip install -r requirements.txt
-python recon/dict_census.py        # writes recon/out/ + prints summary
-python recon/datacite_probe.py     # writes recon/out/ + prints field coverage
+
+# Recon (already run; re-run only to refresh the format census / DataCite probe)
+python recon/dict_census.py
+python recon/datacite_probe.py
+
+# Full pipeline, in order
+python build_deposit_status.py     # regenerate control file (preserves curation)
+python layer1_catalog.py           # DataCite enrichment  -> data/published_catalog.csv (~1 min)
+python layer2_odrive.py            # O: scan + derive      -> data/odrive_reality.csv
+python reconcile.py                # join + drift + oracle -> master_inventory.xlsx
 ```
 
 Phase 1 is **local-only** — no GitHub Actions, no remote. Commit each run so every

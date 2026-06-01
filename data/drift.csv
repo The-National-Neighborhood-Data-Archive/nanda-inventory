@@ -1,0 +1,93 @@
+type,study_id,topic_folder,detail
+matched_unit_no_dict,38506,voting,voting_county_2004-2022 has no parseable dict on disk
+multi_subfolder,38559,broadband,chosen: internet_access_acs_tract_2015-2019; internet_access_acs_zcta_2015_2019
+multi_subfolder,38567,broadband,chosen: broadband_fcc_tract_2014-2020; broadband_fcc_zcta_2014-2020
+multi_subfolder,38569,schools,chosen: school_counts_tract_2000-2018; school_counts_zcta_2000-2018; schools_district_2000-2018
+multi_subfolder,38579,schools,chosen: neighborhood_school_gap_tract_0910_1516; neighborhood_school_gap_zcta_0910_1516
+multi_subfolder,38580,street_connectivity,chosen: street_connectivity_tract_2010; street_connectivity_tract_2020; street_connectivity_zcta_2010; street_connectivity_zcta_2020
+multi_subfolder,38584,traffic,chosen: traffic_volume_interpolated_zcta_1963-2019; traffic_volume_noninterpolated_tract_1963-2019
+multi_subfolder,38585,traffic,chosen: street_type_tract_2010; street_type_zcta_2010
+multi_subfolder,38586,parks,chosen: parks_tract_2018; parks_zcta_2018
+multi_subfolder,38597,pollution,chosen: polluting_sites_tract20_1987-2021; polluting_sites_zcta20_1987-2021
+multi_subfolder,38605,public_transit,chosen: transit_tract2024; transit_tract_2016-2018; transit_zcta2024; transit_zcta_2016-2018
+multi_subfolder,38858,weather,chosen: cold_days_p1_county_2002-2016; cold_days_p5_county_2002-2016; cold_days_precip_county_2002-2016; freezing_days_county_2002-2016; freezing_days_precip_county_2002-2016; hot_days_p95_county_2002-2016; rainsnow_county_2002-2016; rainy_days_county_2002-2016; snowy_days_county_2002-2016; temp_daily_avg_county_2002-2016
+catalog_no_o_files,120088,,"ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)"
+catalog_no_o_files,141121,,NO O: FILES - published to NaNDA as an external dataset (no local curation files)
+catalog_no_o_files,190141,,NO O: FILES - special release built on Dropbox from merged NaNDA data (one-off)
+multi_subfolder,230941,PRISM,chosen: ppt; tmax
+o_topic_no_catalog,,NHPD,1 O: unit(s); no catalog deposit maps here
+o_unit_unselected,,PRISM,daily () not matched to a deposit
+o_unit_unselected,,PRISM,tmin (2010-2019) not matched to a deposit
+o_unit_unselected,,arts_entertainment_recreation,artsentleisure_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,arts_entertainment_recreation,artsentrec_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,arts_entertainment_recreation,artsentrec_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,arts_entertainment_recreation,artsentrec_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,broadband,broadband_fcc_tract_2014-2018 (2014-2018) not matched to a deposit
+o_unit_unselected,,broadband,broadband_fcc_zcta_2014-2018 (2014-2018) not matched to a deposit
+o_unit_unselected,,dollar_stores,dollar_stores_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,dollar_stores,dollar_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,dollar_stores,dollar_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,eating_drinking,eatdrink_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,eating_drinking,eatdrink_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,eating_drinking,eatdrink_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,eating_drinking,eatdrink_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,education_training,schools_nets_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,grocery_stores,grocery_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,grocery_stores,grocery_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,grocery_stores,grocery_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,health_care_nets,health_care_nets_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,health_care_nets,health_care_nets_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,health_care_nets,health_care_nets_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,health_care_nets,health_care_nets_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,land_cover,landcover_zcta_2001-2016 (2001-2016) not matched to a deposit
+o_unit_unselected,,law_enforcement,justice_safety_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,law_enforcement,lawenf_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,law_enforcement,lawenf_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,law_enforcement,lawenf_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,liquor_tobacco_convenience,lqtbcon_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,liquor_tobacco_convenience,lqtbcon_tractZCTA_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,liquor_tobacco_convenience,lqtbcon_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,parks,parks_tract20_2022 (2022) not matched to a deposit
+o_unit_unselected,,parks,parks_zcta20_2022 (2022) not matched to a deposit
+o_unit_unselected,,personal_care_laundromats,pclaund_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,personal_care_laundromats,pclaund_tractZCTA_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,personal_care_laundromats,pclaund_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,personal_care_laundromats,personal_services_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,pollution,polluting_sites_tract_2000-2018 (2000-2018) not matched to a deposit
+o_unit_unselected,,pollution,polluting_sites_zcta_2000-2018 (2000-2018) not matched to a deposit
+o_unit_unselected,,post_offices_banks,pobank_1990-2022 (1990-2022) not matched to a deposit
+o_unit_unselected,,post_offices_banks,pobank_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,post_offices_banks,pobank_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,recreation,recreation_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,religious_civic_social_orgs,relcivsoc_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,religious_civic_social_orgs,relcivsoc_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,religious_civic_social_orgs,relcivsoc_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,religious_civic_social_orgs,relcivsoc_zcta10_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,religious_civic_social_orgs,relcivsoc_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,retail_establishments,retail_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,retail_establishments,retail_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,retail_establishments,retail_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,retail_establishments,retail_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,schools,neighborhood_school_gap_tract_supp_0910_1516 (2009-2010) not matched to a deposit
+o_unit_unselected,,schools,neighborhood_school_gap_zcta_supp_0910_1516 (2009-2010) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_tract_1990 (1990) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_tract_1990-2010 (1990-2010) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_tract_2000-2010 (2000-2010) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_tract_2008-2017 (2008-2017) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_tract_2016-2020 (2016-2020) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_zcta_2008-2017 (2008-2017) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_zcta_2016-2020 (2016-2020) not matched to a deposit
+o_unit_unselected,,ses_demographics,totpop_zcta_2000-2010 (2000-2010) not matched to a deposit
+o_unit_unselected,,social_services,social_services_1990-2021 (1990-2021) not matched to a deposit
+o_unit_unselected,,social_services,social_services_tract_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,social_services,social_services_tract_2006-2015 (2006-2015) not matched to a deposit
+o_unit_unselected,,social_services,social_services_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_unit_unselected,,traffic,street_type_tract_2020 (2020) not matched to a deposit
+o_unit_unselected,,traffic,street_type_zcta_2020 (2020) not matched to a deposit
+o_unit_unselected,,traffic,traffic_volume_noninterpolated_zcta_1963-2019 (1963-2019) not matched to a deposit
+o_unit_unselected,,urbanicity,urbanicity_ruca_zip_2010 (2010) not matched to a deposit
+o_unit_unselected,,voting,voting_county_2004-2018 (2004-2018) not matched to a deposit
+o_unit_unselected,,voting,voting_county_2018-2022 (2018-2022) not matched to a deposit
+o_unit_unselected,,weather,hot_days_p99_county_2002-2016 (2002-2016) not matched to a deposit
+o_unit_unselected,,weather,temp_30y_avg_county_1981-2010 (1981-2010) not matched to a deposit
+o_unit_unselected,,weather,temp_30y_daily_avg_county_1981-2010 (1981-2010) not matched to a deposit

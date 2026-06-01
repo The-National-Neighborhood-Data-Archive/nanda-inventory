@@ -1,0 +1,51 @@
+study_id,in_oracle,topic_check,uid_check,derived_unique_ids,oracle_unique_ids,detail
+38506,Y,match,MINE_EMPTY,,stcofips year,oracle subfolder=voting_county_2004-2018
+38528,Y,match,mine_superset,tract_fips10; tract_fips20; zcta20,zcta20,oracle subfolder=sesdem_zcta_2016-2020
+38559,Y,match,GENUINE_DIFF,tract_fips10; zcta19,zcta19 year,oracle subfolder=internet_access_acs_zcta_2015_2019
+38567,Y,match,oracle_stale,tract_fips10; year,zcta19 year,oracle subfolder=internet_access_acs_zcta_2015_2019
+38569,Y,match,mine_superset,tract_fips10; year; zcta19; leaid,leaid year,oracle subfolder=schools_district_2000-2018
+38579,Y,match,mine_superset,tract_fips10; year; zcta19,zcta19 year,oracle subfolder=schools_district_2000-2018
+38580,Y,match,GENUINE_DIFF,tract_fips10; tract_fips20; zcta,zcta n_streets,oracle subfolder=street_connectivity_zcta_2020
+38584,Y,match,mine_superset,zcta19; year; tract_fips10,zcta19 year,oracle subfolder=traffic_volume_noninterpolated_tract_1963-2019
+38585,Y,match,oracle_stale,tract_fips10; zcta,zcta19 year,oracle subfolder=traffic_volume_noninterpolated_tract_1963-2019
+38586,Y,match,GENUINE_DIFF,tract_fips; tract_fips10; zcta19,zcta19 year,oracle subfolder=parks_zcta_2018
+38597,Y,match,mine_superset,tract_fips20; year; zcta20,zcta20 year,oracle subfolder=polluting_sites_zcta_2000-2018
+38598,Y,match,oracle_stale,tract_fips10; year; tract_fips20; zcta10; zcta20,zcta19 year,oracle subfolder=landcover_zcta_2001-2016
+38605,Y,match,GENUINE_DIFF,tract_fips20; tract_fips; zcta20; zcta19,zcta19 year,oracle subfolder=transit_zcta_2016-2018
+38606,Y,match,mine_superset,tract_fips10; tract_fips,tract_fips10,oracle subfolder=urbanicity_tract_2010
+38649,Y,match,match,STCOFIPS; year,STCOFIPS YEAR,oracle subfolder=crime_county_2002-2014
+38858,Y,match,oracle_unfilled,stcofips10,,oracle subfolder=
+38974,Y,match,oracle_unfilled,tract_fips20; zcta20,,oracle subfolder=
+39093,Y,match,oracle_unfilled,tract_fips10; year,,oracle subfolder=
+39378,Y,match,oracle_unfilled,tract_fips10; tract_fips20; zcta10; zcta20,,oracle subfolder=
+110663,N,,,tract_fips,,not in v03 oracle
+120088,N,,,,,not in v03 oracle
+127681,Y,match,match,tract_fips10; year,tract_fips10 year,oracle subfolder=edtrain_zcta_2003-2017
+127682,Y,match,match,zcta19; year,zcta19 year,oracle subfolder=edtrain_zcta_2003-2017
+141121,Y,DIFF mine= oracle=historic_redlining,match,,,oracle subfolder=
+190141,N,,,,,not in v03 oracle
+200038,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; zcta10; zcta20,,oracle subfolder=
+207966,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=relcivsoc_zcta_2003-2017
+208207,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=social_services_zcta_2003-2017
+208366,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; zcta20; zcta10,,oracle subfolder=pobank_zcta_2003-2017
+208682,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=retail_zcta_2003-2017
+208684,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=lawenf_zcta_2003-2017
+208751,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=eatdrink_zcta_2003-2017
+208906,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=personal_services_tract_2006-2015
+208907,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=lqtbcon_zcta_2003-2017
+209050,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=health_care_nets_zcta_2003-2017
+209163,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=artsentrec_zcta_2003-2017
+209164,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=recreation_1990-2021
+209313,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=grocery_zcta_2003-2017
+209324,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=dollar_zcta_2003-2017
+210581,Y,match,oracle_unfilled,blkgrp_fips10; blkgrp_fips20,,oracle subfolder=datasets
+220701,Y,match,oracle_stale,tract_fips10; year; tract_fips20; zcta10; zcta20,zcta19 year,oracle subfolder=landcover_zcta_2001-2016
+222263,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; zcta10; zcta20,,oracle subfolder=datasets
+222901,Y,match,oracle_unfilled,tract_fips10; tract_fips20; zcta10; zcta20,,oracle subfolder=
+230941,Y,match,oracle_unfilled,year; tract_fips10; tract_fips20,,oracle subfolder=PRISM_v01
+237305,Y,match,oracle_unfilled,tract_fips10,,oracle subfolder=datasets
+301419,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=datasets
+302178,N,,,tract_fips20; tract_fips22; zcta_fips20,,not in v03 oracle
+302343,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=training_vocation_1990-2022
+302937,N,,,tract_fips20; tract_fips22; zcta20,,not in v03 oracle
+305511,N,,,tract_fips20; tract_fips22; zcta20,,not in v03 oracle
