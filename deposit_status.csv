@@ -10,18 +10,18 @@ study_id,archive,deposit_via,status,seed_doi,resolve_doi_for_datacite,related_to
 38585,ICPSR,legacy,current,10.3886/ICPSR38585.v2,10.3886/ICPSR38585.v2,,traffic,,
 38586,ICPSR,legacy,current,10.3886/ICPSR38586.v2,10.3886/ICPSR38586.v2,,parks,,
 38597,ICPSR,legacy,current,10.3886/ICPSR38597.v2,10.3886/ICPSR38597.v2,,pollution,,
-38598,ICPSR,legacy,current,10.3886/ICPSR38598.v2,10.3886/ICPSR38598.v2,,,"land_cover cluster (canonical) - confirm folder; shared w/ 220701, 110663",
+38598,ICPSR,legacy,current,10.3886/ICPSR38598.v2,10.3886/ICPSR38598.v2,,land_cover,,
 38605,ICPSR,legacy,current,10.3886/ICPSR38605.v2,10.3886/ICPSR38605.v2,,public_transit,,
 38606,ICPSR,legacy,current,10.3886/ICPSR38606.v1,10.3886/ICPSR38606.v1,,urbanicity,,
 38649,ICPSR,legacy,current,10.3886/ICPSR38649.v1,10.3886/ICPSR38649.v1,,crime,,
 38858,ICPSR,legacy,current,10.3886/ICPSR38858.v1,10.3886/ICPSR38858.v1,,weather,,
 38974,ICPSR,legacy,current,10.3886/ICPSR38974.v1,10.3886/ICPSR38974.v1,,essential_workers,,
 39093,ICPSR,legacy,current,10.3886/ICPSR39093.v2,10.3886/ICPSR39093.v2,,HMDA,,
-39378,ICPSR,legacy,current,10.3886/ICPSR39378.v1,10.3886/ICPSR39378.v1,,,hospitals cluster (canonical) - confirm folder; shared w/ 222901,
-110663,openICPSR,legacy,superseded,10.3886/E110663V10,10.3886/E110663,10.3886/ICPSR38598.v2,,superseded; land_cover cluster - confirm folder + relationship,superseded by ICPSR38598 (Land Cover); older 2001-2016 vintage
+39378,ICPSR,legacy,current,10.3886/ICPSR39378.v1,10.3886/ICPSR39378.v1,,hospitals,,
+110663,openICPSR,legacy,superseded,10.3886/E110663V10,10.3886/E110663,10.3886/ICPSR38598.v2,land_cover,,superseded by ICPSR38598 (Land Cover); older 2001-2016 vintage
 120088,openICPSR,legacy,current,10.3886/E120088V21,10.3886/E120088,,,"ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)",
-127681,openICPSR,legacy,current,10.3886/E127681V14,10.3886/E127681,,,education_training co-canonical sibling (Tract) - confirm folder,
-127682,openICPSR,legacy,current,10.3886/E127682V14,10.3886/E127682,,,education_training co-canonical sibling (ZCTA) - confirm folder,
+127681,openICPSR,legacy,current,10.3886/E127681V14,10.3886/E127681,,education_training,,
+127682,openICPSR,legacy,current,10.3886/E127682V14,10.3886/E127682,,education_training,,
 141121,openICPSR,legacy,current,10.3886/E141121V36,10.3886/E141121,,,historic_redlining folder exists but Layer 2 found no dataset units - verify,
 190141,openICPSR,legacy,current,10.3886/E190141V11,10.3886/E190141,,,Alzheimer's special data release - O: folder not identified,
 200038,openICPSR,RDE,current,10.3886/ICPSR200038.V5,10.3886/ICPSR200038.V5,,libraries,,
@@ -39,9 +39,9 @@ study_id,archive,deposit_via,status,seed_doi,resolve_doi_for_datacite,related_to
 209313,openICPSR,legacy,current,10.3886/E209313V20,10.3886/E209313,,grocery_stores,,
 209324,openICPSR,legacy,current,10.3886/E209324V21,10.3886/E209324,,dollar_stores,,
 210581,openICPSR,legacy,current,10.3886/E210581V19,10.3886/E210581,,ADI_standardized,,
-220701,openICPSR,legacy,alternate-deposit,10.3886/E220701V14,10.3886/E220701,10.3886/ICPSR38598.v2,,alternate-deposit; land_cover cluster - confirm folder,"alternate openICPSR deposit of ICPSR38598 (Land Cover, 1985-2023)"
+220701,openICPSR,legacy,alternate-deposit,10.3886/E220701V14,10.3886/E220701,10.3886/ICPSR38598.v2,land_cover,,"alternate openICPSR deposit of ICPSR38598 (Land Cover, 1985-2023)"
 222263,openICPSR,legacy,current,10.3886/E222263V12,10.3886/E222263,,opthamologists,,
-222901,openICPSR,legacy,alternate-deposit,10.3886/E222901V13,10.3886/E222901,10.3886/ICPSR39378.v1,,alternate-deposit; hospitals cluster - confirm folder,"alternate openICPSR deposit of ICPSR39378 (Hospitals, 2023)"
+222901,openICPSR,legacy,alternate-deposit,10.3886/E222901V13,10.3886/E222901,10.3886/ICPSR39378.v1,hospitals,,"alternate openICPSR deposit of ICPSR39378 (Hospitals, 2023)"
 230941,openICPSR,legacy,current,10.3886/E230941V25,10.3886/E230941,,PRISM,,
 237305,openICPSR,legacy,current,10.3886/E237305V11,10.3886/E237305,,air_conditioning,,
 301419,openICPSR,RDE,current,10.3886/E301419V11,10.3886/ICPSR301419.v1,10.3886/ICPSR301419.v1,essential_businesses,,seed E-form DOI 404s at DataCite; published twin is ICPSR-form

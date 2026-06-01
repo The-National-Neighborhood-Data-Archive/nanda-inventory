@@ -92,19 +92,18 @@ TOPIC = {
     "38584": "traffic", "38585": "traffic", "38586": "parks", "38597": "pollution",
     "38605": "public_transit", "38606": "urbanicity", "38649": "crime",
     "38858": "weather", "38974": "essential_workers", "39093": "HMDA",
+    # Cluster folders confirmed (the alternate/superseded/co-canonical relationships are
+    # already captured in status + related_to_doi; the folder itself is unambiguous).
+    "38598": "land_cover", "220701": "land_cover", "110663": "land_cover",
+    "39378": "hospitals", "222901": "hospitals",
+    "127681": "education_training", "127682": "education_training",
 }
-# Deposits deliberately left blank, with the reason a human needs to resolve.
+# Deposits with no topic_folder. "NO O: FILES" rows are RESOLVED (expected catalog-only
+# entries); 120088 still needs a human folder call.
 TOPIC_REVIEW = {
-    "38598":  "land_cover cluster (canonical) - confirm folder; shared w/ 220701, 110663",
-    "220701": "alternate-deposit; land_cover cluster - confirm folder",
-    "110663": "superseded; land_cover cluster - confirm folder + relationship",
-    "39378":  "hospitals cluster (canonical) - confirm folder; shared w/ 222901",
-    "222901": "alternate-deposit; hospitals cluster - confirm folder",
-    "127681": "education_training co-canonical sibling (Tract) - confirm folder",
-    "127682": "education_training co-canonical sibling (ZCTA) - confirm folder",
     "120088": "ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)",
-    "141121": "historic_redlining folder exists but Layer 2 found no dataset units - verify",
-    "190141": "Alzheimer's special data release - O: folder not identified",
+    "141121": "NO O: FILES - published to NaNDA as an external dataset (no local curation files)",
+    "190141": "NO O: FILES - special release built on Dropbox from merged NaNDA data (one-off)",
 }
 
 
