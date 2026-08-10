@@ -1,5 +1,35 @@
 # nanda-inventory
 
+## Status: archived (Phase 1 complete)
+
+This project is paused, not abandoned. Phase 1 is finished and working;
+Phase 2 was deferred and may be resumed.
+
+**Phase 1 built** a reconciliation of NaNDA's dataset inventory across four
+sources: the published ICPSR/openICPSR catalog, the actual contents of
+`O:\NaNDA\Data\`, the drift between those two, and an oracle diff identifying
+where they disagree. The inventory documents every deposit rather than
+deduplicating them, because a single dataset may have multiple legitimate
+deposits across versions and geographies.
+
+**Phase 2 would have added** a pipeline layer connecting the inventory to the
+data publication workflow. Deferred, not scoped out.
+
+### Important: `deposit_status.csv`
+
+`deposit_status.csv` is hand-curated and is the canonical record of dataset
+identity. It encodes human judgments about which deposits represent the same
+underlying dataset — judgments that cannot be derived automatically from the
+catalog or the file system. **It must never be overwritten by a pipeline
+rerun.** Any future work needs to preserve it as an input, not regenerate it
+as an output.
+
+### If you're picking this up
+
+Start by running the Phase 1 reconciliation and comparing its output to the
+last committed results, to confirm the ICPSR catalog structure hasn't changed
+underneath it.
+
 A locally-run generator that produces an always-fresh **master inventory** of NaNDA's
 published datasets. Nothing in the output is hand-maintained — every cell is scraped,
 scanned, or derived, so no tab can drift from its source because no tab *is* the source.
