@@ -1,0 +1,102 @@
+name: DPM Pipeline Sync
+
+# Daily pull of newly-completed datasets from the DPM Workflows sheet, DataCite
+# enrichment, and export of the public seed file into usage-metrics/inventory.csv.
+# Layers 2+3 (O: drive scan, reconcile, master_inventory.xlsx) stay LOCAL-ONLY —
+# a hosted runner cannot reach the O: drive. This workflow never touches them.
+#
+# Required repository secrets (setup steps in README.md):
+#   GOOGLE_SHEETS_CREDENTIALS  - service-account JSON with Viewer access to the sheet
+#   USAGE_METRICS_PUSH_TOKEN   - fine-grained PAT, usage-metrics repo only, contents: write
+
+on:
+  schedule:
+    # Daily, 06:17 UTC (off the :00 rush; curators complete datasets infrequently,
+    # so daily is plenty and polite to the Sheets API)
+    - cron: '17 6 * * *'
+  workflow_dispatch:  # manual trigger for first verification and ad-hoc runs
+
+permissions:
+  contents: write   # push deposit_status.csv / published_catalog.csv back here
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout nanda-inventory
+      uses: actions/checkout@v4
+      with:
+        path: nanda-inventory
+
+    # Sibling checkout — the pipeline reads ../usage-metrics/inventory.csv as its
+    # seed and writes the derived export back to the same file. The PAT is persisted
+    # so the push step below can use it.
+    - name: Checkout usage-metrics
+      uses: actions/checkout@v4
+      with:
+        repository: The-National-Neighborhood-Data-Archive/usage-metrics
+        token: ${{ secrets.USAGE_METRICS_PUSH_TOKEN }}
+        path: usage-metrics
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      working-directory: nanda-inventory
+      run: pip install -r requirements.txt
+
+    - name: Pull DPM Completed tab
+      working-directory: nanda-inventory
+      env:
+        GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
+      run: python pull_dpm_completed.py
+
+    - name: Rebuild deposit_status.csv (preserves curation)
+      working-directory: nanda-inventory
+      run: python build_deposit_status.py
+
+    - name: Layer 1 DataCite enrichment
+      working-directory: nanda-inventory
+      run: python layer1_catalog.py
+
+    - name: Export public catalog to usage-metrics
+      working-directory: nanda-inventory
+      run: python export_public_catalog.py
+
+    - name: Commit and push nanda-inventory
+      working-directory: nanda-inventory
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add deposit_status.csv data/published_catalog.csv
+        git diff --quiet && git diff --staged --quiet || git commit -m "DPM sync $(date +'%Y-%m-%d')"
+        git pull --rebase origin "${GITHUB_REF_NAME}"
+        git push
+        # "Committed is not done; done is a verified push" (memory/workflows/git-hygiene.md)
+        local_sha=$(git rev-parse HEAD)
+        remote_sha=$(git ls-remote origin -h "refs/heads/${GITHUB_REF_NAME}" | cut -f1)
+        if [ "$local_sha" != "$remote_sha" ]; then
+          echo "::error::Push to nanda-inventory NOT verified (local $local_sha vs remote $remote_sha)"
+          exit 1
+        fi
+        echo "nanda-inventory push verified at $local_sha"
+
+    - name: Commit and push usage-metrics
+      working-directory: usage-metrics
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add inventory.csv
+        git diff --quiet && git diff --staged --quiet || git commit -m "Sync inventory.csv from nanda-inventory DPM pipeline $(date +'%Y-%m-%d')"
+        git pull --rebase origin main
+        git push origin HEAD:main
+        local_sha=$(git rev-parse HEAD)
+        remote_sha=$(git ls-remote origin -h refs/heads/main | cut -f1)
+        if [ "$local_sha" != "$remote_sha" ]; then
+          echo "::error::Push to usage-metrics NOT verified (local $local_sha vs remote $remote_sha)"
+          exit 1
+        fi
+        echo "usage-metrics push verified at $local_sha"

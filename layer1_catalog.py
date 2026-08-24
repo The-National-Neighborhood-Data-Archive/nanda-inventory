@@ -176,7 +176,8 @@ def main() -> int:
         time.sleep(1)  # polite
 
     with OUT_CSV.open("w", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=OUT_COLUMNS)
+        # "\n" explicitly: runs on Linux CI too; csv's default "\r\n" would fight LF storage.
+        w = csv.DictWriter(fh, fieldnames=OUT_COLUMNS, lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 

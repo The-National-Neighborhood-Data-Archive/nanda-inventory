@@ -128,19 +128,25 @@ def resolve_doi_for(study_id: str, doi: str, version: str) -> str:
     return strip_doi_version(doi)  # E-form -> base
 
 
+def load_existing_rows() -> list[dict]:
+    """Full existing deposit_status.csv rows (for curation preservation AND for
+    carrying forward rows not yet present in the seed — see main())."""
+    if not OUT_CSV.exists():
+        return []
+    with OUT_CSV.open("r", encoding="utf-8-sig", newline="") as fh:
+        return list(csv.DictReader(fh))
+
+
 def load_existing_curation() -> dict[str, dict]:
     """Preserve hand-edited curatorial columns across re-runs, keyed by study_id."""
-    if not OUT_CSV.exists():
-        return {}
-    with OUT_CSV.open("r", encoding="utf-8-sig", newline="") as fh:
-        return {
-            r["study_id"]: {"status": r.get("status", ""),
-                            "related_to_doi": r.get("related_to_doi", ""),
-                            "topic_folder": r.get("topic_folder", ""),
-                            "topic_review": r.get("topic_review", ""),
-                            "note": r.get("note", "")}
-            for r in csv.DictReader(fh)
-        }
+    return {
+        r["study_id"]: {"status": r.get("status", ""),
+                        "related_to_doi": r.get("related_to_doi", ""),
+                        "topic_folder": r.get("topic_folder", ""),
+                        "topic_review": r.get("topic_review", ""),
+                        "note": r.get("note", "")}
+        for r in load_existing_rows()
+    }
 
 
 def curate(study_id: str, existing: dict[str, dict]) -> dict:
@@ -159,8 +165,18 @@ def curate(study_id: str, existing: dict[str, dict]) -> dict:
     elif study_id in BASELINE:
         status, related, note = BASELINE[study_id]
     elif existing.get(study_id) is not None:
-        status, related = DEFAULT_STATUS, ex.get("related_to_doi", "").strip()
-        note = ex.get("note", "").strip()
+        prev = (ex.get("status") or "").strip()
+        if prev == "":
+            # Pending review from an earlier run (e.g. a DPM-sourced row). Blank stays
+            # blank across reruns — NEVER auto-promoted to `current`; only a human sets
+            # a status. (Before this guard, a blank row silently became `current` on
+            # the next rerun via DEFAULT_STATUS.)
+            status, related = NEEDS_REVIEW, ex.get("related_to_doi", "").strip()
+            note = ex.get("note", "").strip() or "NEW DEPOSIT - needs review"
+        else:
+            # Legacy "published" placeholder from before the curatorial model.
+            status, related = DEFAULT_STATUS, ex.get("related_to_doi", "").strip()
+            note = ex.get("note", "").strip()
     else:
         status, related, note = NEEDS_REVIEW, "", "NEW DEPOSIT - needs review"
 
@@ -175,6 +191,7 @@ def curate(study_id: str, existing: dict[str, dict]) -> dict:
 
 
 def main() -> int:
+    existing_rows = load_existing_rows()
     curated = load_existing_curation()
 
     with SEED_CSV.open("r", encoding="utf-8-sig", newline="") as fh:
@@ -199,8 +216,18 @@ def main() -> int:
             "note": cur["note"],
         })
 
+    # Carry forward rows that exist in deposit_status.csv but not (yet) in the seed —
+    # e.g. rows appended by pull_dpm_completed.py before they reach usage-metrics'
+    # inventory.csv, or rows dropped from the public export (superseded). The row set
+    # is seed UNION existing; nothing tracked here is ever silently dropped.
+    seed_ids = {r["study_id"] for r in rows}
+    carried = [dict(r) for r in existing_rows if r["study_id"].strip() not in seed_ids]
+    rows.extend(carried)
+
     with OUT_CSV.open("w", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=COLUMNS)
+        # "\n" explicitly: this now also runs on Linux CI, where csv's default "\r\n"
+        # would fight the repo's LF storage (locally autocrlf hides the difference).
+        w = csv.DictWriter(fh, fieldnames=COLUMNS, lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 
@@ -212,6 +239,9 @@ def main() -> int:
     by_status = Counter((r["status"] or "(needs review)") for r in rows)
 
     print(f"Wrote {len(rows)} deposit rows -> {OUT_CSV}")
+    if carried:
+        print(f"  carried forward (not in seed)  : {len(carried)}  "
+              f"({', '.join(r['study_id'] for r in carried)})")
     print(f"  resolve as-is (ICPSR-form)     : {icpsr}")
     print(f"  resolve via base (E-form)      : {eform}")
     print(f"  twin override (ICPSR-form twin): {len(twins)}  "

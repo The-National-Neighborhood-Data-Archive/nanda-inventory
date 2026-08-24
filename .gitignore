@@ -12,3 +12,6 @@ Thumbs.db
 debug/
 *.tmp
 ~$*
+
+# Secrets — never commit the Google service-account key
+credentials/

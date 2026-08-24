@@ -1,9 +1,11 @@
 # nanda-inventory
 
-## Status: archived (Phase 1 complete)
+## Status: active (Phase 1 complete; Phase 2 DPM sync built)
 
-This project is paused, not abandoned. Phase 1 is finished and working;
-Phase 2 was deferred and may be resumed.
+Phase 1 (the three-layer master inventory) is finished and working. The first
+slice of Phase 2 — the automated DPM-sheet-to-usage-metrics sync — was added
+2026-08-24 and runs daily via GitHub Actions (see "Phase 2 — DPM pipeline sync"
+below). Layers 2+3 remain local-only.
 
 **Phase 1 built** a reconciliation of NaNDA's dataset inventory across four
 sources: the published ICPSR/openICPSR catalog, the actual contents of
@@ -42,9 +44,9 @@ scanned, or derived, so no tab can drift from its source because no tab *is* the
 | 2 | O-drive file reality (internal mapping) | The `O:` drive itself, scanned each run (dictionary exports in each `documentation\`) | **Phase 1** |
 | 3 | Pipeline / in-development | DPM Workflows tracker | Phase 2 (separate brief) |
 
-**This repo currently covers Phase 1 only (Layers 1–2).** Phase 2 — the DPM-driven
-pipeline layer, Published-trigger fan-out, folder-stamping at intake, and dissemination
-tracking — is a later, separate brief. Do not build any of that here.
+**Layers 1–2 are Phase 1 (built). The DPM-driven pipeline sync (Layer 3's first
+slice) is built** — see "Phase 2 — DPM pipeline sync" below. Still future, separate
+briefs: Published-trigger fan-out, folder-stamping at intake, dissemination tracking.
 
 ## Layout
 
@@ -109,5 +111,57 @@ python layer2_odrive.py            # O: scan + derive      -> data/odrive_realit
 python reconcile.py                # join + drift + oracle -> master_inventory.xlsx
 ```
 
-Phase 1 is **local-only** — no GitHub Actions, no remote. Commit each run so every
-refresh is a diffable commit.
+Layers 2+3 (`layer2_odrive.py`, `reconcile.py`, `master_inventory.xlsx`) are
+**local-only** — they need the `O:` drive, which a hosted runner can't reach. Commit
+each local run so every refresh is a diffable commit.
+
+## Phase 2 — DPM pipeline sync (GitHub Actions, daily)
+
+When a curator marks a dataset `Done!` in the DPM Workflows sheet's `Completed` tab,
+`.github/workflows/dpm-sync.yml` (daily 06:17 UTC + manual `workflow_dispatch`) runs:
+
+```
+pull_dpm_completed.py    ->  appends NEW deposits to deposit_status.csv
+                             (blank status = needs Lindsay's review; never auto-`current`)
+build_deposit_status.py  ->  regenerates mechanical columns, preserves all curation,
+                             carries forward rows not yet in the seed
+layer1_catalog.py        ->  DataCite enrichment -> data/published_catalog.csv
+export_public_catalog.py ->  rewrites ../usage-metrics/inventory.csv (the public seed)
+```
+
+The workflow commits `deposit_status.csv` + `data/published_catalog.csv` here, then
+pushes the exported `inventory.csv` to the `usage-metrics` repo. Both pushes are
+verified against the remote before the job reports success. Check the run's summary
+page — new deposits and skipped rows needing manual attention are listed there.
+
+Status mapping into `usage-metrics` (different axes — identity vs. publication):
+`current`, `alternate-deposit`, and blank/needs-review all export as `published`
+(a Done! deposit with a resolving DOI is live; the pending review concerns dataset
+*identity*, not publication). `superseded` rows are dropped from `inventory.csv`
+entirely. `unpublished` rows already in `inventory.csv` pass through untouched.
+`add_to_inventory.ps1` over in usage-metrics stays available as the manual escape
+hatch for edge cases.
+
+### One-time setup (Lindsay)
+
+Two credentials, both created manually, both stored as repository secrets in
+**this** repo (Settings → Secrets and variables → Actions):
+
+1. **`GOOGLE_SHEETS_CREDENTIALS`** — read access to the DPM sheet.
+   - In Google Cloud Console, create (or reuse) a service account
+     (no roles needed; it only reads a sheet shared with it).
+   - Create a JSON key for it and download the file.
+   - Share the DPM Workflows sheet with the service account's email
+     (`...@...iam.gserviceaccount.com`) as **Viewer**.
+   - Paste the entire JSON file's contents as the secret value.
+   - For local runs instead: save the file as `credentials/service_account.json`
+     (the `credentials/` folder is gitignored).
+
+2. **`USAGE_METRICS_PUSH_TOKEN`** — lets the workflow push to usage-metrics.
+   - GitHub → Settings → Developer settings → Fine-grained personal access tokens.
+   - Repository access: **only** `usage-metrics`. Permissions: **Contents: Read
+     and write**. Pick a ~1-year expiry and note the renewal date.
+   - Paste the token as the secret value.
+
+Until both secrets exist, the workflow fails cleanly at the credential step —
+nothing is written anywhere.
