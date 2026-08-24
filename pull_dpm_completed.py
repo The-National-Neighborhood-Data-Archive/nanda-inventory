@@ -217,11 +217,11 @@ def main() -> int:
         if sid is None:
             skipped.append(f"{name}: unresolvable Study # {raw_id!r}")
             continue
+        if sid in known_ids:
+            already.append(sid)   # checked BEFORE the DOI gate: a tracked row with a
+            continue              # messy sheet DOI needs no attention — it's done
         if doi is None:
             skipped.append(f"{name} ({sid}): missing/unusable DOI {raw_doi!r}")
-            continue
-        if sid in known_ids:
-            already.append(sid)
             continue
         archive = derive_archive(doi)
         if archive is None:
