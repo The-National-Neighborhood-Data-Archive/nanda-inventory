@@ -18,7 +18,6 @@ study_id,archive,deposit_via,status,seed_doi,resolve_doi_for_datacite,related_to
 38974,ICPSR,legacy,current,10.3886/ICPSR38974.v1,10.3886/ICPSR38974.v1,,essential_workers,,
 39093,ICPSR,legacy,current,10.3886/ICPSR39093.v2,10.3886/ICPSR39093.v2,,HMDA,,
 39378,ICPSR,legacy,current,10.3886/ICPSR39378.v1,10.3886/ICPSR39378.v1,,hospitals,,
-110663,openICPSR,legacy,superseded,10.3886/E110663V10,10.3886/E110663,10.3886/ICPSR38598.v2,land_cover,,superseded by ICPSR38598 (Land Cover); older 2001-2016 vintage
 120088,openICPSR,legacy,current,10.3886/E120088V21,10.3886/E120088,,,"ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)",
 127681,openICPSR,legacy,current,10.3886/E127681V14,10.3886/E127681,,education_training,,
 127682,openICPSR,legacy,current,10.3886/E127682V14,10.3886/E127682,,education_training,,
@@ -49,3 +48,4 @@ study_id,archive,deposit_via,status,seed_doi,resolve_doi_for_datacite,related_to
 302343,openICPSR,RDE,current,10.3886/ICPSR302343.v1,10.3886/ICPSR302343.v1,,training_vocation,,
 302937,openICPSR,RDE,current,10.3886/ICPSR302937.v1,10.3886/ICPSR302937.v1,,broadband,,
 305511,ICPSR,legacy,current,10.3886/ICPSR305511.v1,10.3886/ICPSR305511.v1,,parks,,
+110663,openICPSR,legacy,superseded,10.3886/E110663V10,10.3886/E110663,10.3886/ICPSR38598.v2,land_cover,,superseded by ICPSR38598 (Land Cover); older 2001-2016 vintage
