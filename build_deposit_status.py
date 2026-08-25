@@ -97,11 +97,11 @@ TOPIC = {
     "38598": "land_cover", "220701": "land_cover", "110663": "land_cover",
     "39378": "hospitals", "222901": "hospitals",
     "127681": "education_training", "127682": "education_training",
+    "120088": "crosswalks",
 }
 # Deposits with no topic_folder. "NO O: FILES" rows are RESOLVED (expected catalog-only
-# entries); 120088 still needs a human folder call.
+# entries).
 TOPIC_REVIEW = {
-    "120088": "ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)",
     "141121": "NO O: FILES - published to NaNDA as an external dataset (no local curation files)",
     "190141": "NO O: FILES - special release built on Dropbox from merged NaNDA data (one-off)",
 }

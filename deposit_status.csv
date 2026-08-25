@@ -18,7 +18,7 @@ study_id,archive,deposit_via,status,seed_doi,resolve_doi_for_datacite,related_to
 38974,ICPSR,legacy,current,10.3886/ICPSR38974.v1,10.3886/ICPSR38974.v1,,essential_workers,,
 39093,ICPSR,legacy,current,10.3886/ICPSR39093.v2,10.3886/ICPSR39093.v2,,HMDA,,
 39378,ICPSR,legacy,current,10.3886/ICPSR39378.v1,10.3886/ICPSR39378.v1,,hospitals,,
-120088,openICPSR,legacy,current,10.3886/E120088V21,10.3886/E120088,,,"ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)",
+120088,openICPSR,legacy,current,10.3886/E120088V21,10.3886/E120088,,crosswalks,,
 127681,openICPSR,legacy,current,10.3886/E127681V14,10.3886/E127681,,education_training,,
 127682,openICPSR,legacy,current,10.3886/E127682V14,10.3886/E127682,,education_training,,
 141121,openICPSR,legacy,current,10.3886/E141121V36,10.3886/E141121,,,NO O: FILES - published to NaNDA as an external dataset (no local curation files),
