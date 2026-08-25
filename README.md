@@ -118,7 +118,7 @@ each local run so every refresh is a diffable commit.
 ## Phase 2 — DPM pipeline sync (GitHub Actions, daily)
 
 When a curator marks a dataset `Done!` in the DPM Workflows sheet's `Completed` tab,
-`.github/workflows/dpm-sync.yml` (daily 06:17 UTC + manual `workflow_dispatch`) runs:
+`.github/workflows/nanda-curation.yml` (daily 06:17 UTC + manual `workflow_dispatch`) runs:
 
 ```
 pull_dpm_completed.py    ->  appends NEW deposits to deposit_status.csv

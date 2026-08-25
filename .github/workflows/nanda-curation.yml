@@ -1,4 +1,4 @@
-name: DPM Pipeline Sync
+name: NaNDA_Curation_Pipeline
 
 # Daily pull of newly-completed datasets from the DPM Workflows sheet, DataCite
 # enrichment, and export of the public seed file into usage-metrics/inventory.csv.
