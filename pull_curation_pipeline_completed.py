@@ -1,7 +1,7 @@
 """
-Phase 2, step 0: pull newly-completed datasets from the DPM Workflows sheet.
+Phase 2, step 0: pull newly-completed datasets from the NaNDA Curation Pipeline sheet.
 
-Reads the `Completed` tab of the DPM curation pipeline sheet (Google Sheets API,
+Reads the `Completed` tab of the NaNDA Curation Pipeline sheet (Google Sheets API,
 service-account auth, read-only), filters to rows a curator marked `Done!`, and appends
 any deposit not already tracked in deposit_status.csv as a NEW row with a blank `status`
 ("needs review" — never auto-set to `current`), matching the curatorial convention
@@ -63,7 +63,7 @@ DEPOSIT_COLUMNS = ["study_id", "archive", "deposit_via", "status", "seed_doi",
                    "resolve_doi_for_datacite", "related_to_doi", "topic_folder",
                    "topic_review", "note"]
 
-NEW_ROW_NOTE = "NEW DEPOSIT from DPM Completed tab - needs review"
+NEW_ROW_NOTE = "NEW DEPOSIT from NaNDA Curation Pipeline Completed tab - needs review"
 
 
 # --- Sheets access ------------------------------------------------------------------
@@ -158,7 +158,7 @@ def summary_out(lines: list[str]) -> None:
     path = os.environ.get("GITHUB_STEP_SUMMARY")
     if path:
         with open(path, "a", encoding="utf-8") as fh:
-            fh.write("## DPM Completed-tab pull\n\n" + text + "\n")
+            fh.write("## NaNDA Curation Pipeline Completed-tab pull\n\n" + text + "\n")
 
 
 def main() -> int:
@@ -170,7 +170,7 @@ def main() -> int:
     try:
         values = fetch_completed_tab()
     except Exception as exc:
-        print(f"FATAL: could not read the DPM sheet: {exc}", file=sys.stderr)
+        print(f"FATAL: could not read the NaNDA Curation Pipeline sheet: {exc}", file=sys.stderr)
         return 2
     if not values:
         print("FATAL: Completed tab returned no rows at all.", file=sys.stderr)

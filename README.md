@@ -1,11 +1,11 @@
 # nanda-inventory
 
-## Status: active (Phase 1 complete; Phase 2 DPM sync built)
+## Status: active (Phase 1 complete; Phase 2 curation pipeline sync built)
 
 Phase 1 (the three-layer master inventory) is finished and working. The first
-slice of Phase 2 — the automated DPM-sheet-to-usage-metrics sync — was added
-2026-08-24 and runs daily via GitHub Actions (see "Phase 2 — DPM pipeline sync"
-below). Layers 2+3 remain local-only.
+slice of Phase 2 — the automated NaNDA Curation Pipeline sheet-to-usage-metrics
+sync — was added 2026-08-24 and runs weekly via GitHub Actions (see "Phase 2 —
+curation pipeline sync" below). Layers 2+3 remain local-only.
 
 **Phase 1 built** a reconciliation of NaNDA's dataset inventory across four
 sources: the published ICPSR/openICPSR catalog, the actual contents of
@@ -42,10 +42,10 @@ scanned, or derived, so no tab can drift from its source because no tab *is* the
 |-------|------|-----------------|-------|
 | 1 | Published catalog (bibliographic spine) | DataCite DOI registry (API), seeded from the usage-metrics `inventory.csv` | **Phase 1** |
 | 2 | O-drive file reality (internal mapping) | The `O:` drive itself, scanned each run (dictionary exports in each `documentation\`) | **Phase 1** |
-| 3 | Pipeline / in-development | DPM Workflows tracker | Phase 2 (separate brief) |
+| 3 | Pipeline / in-development | NaNDA Curation Pipeline tracker | Phase 2 (separate brief) |
 
-**Layers 1–2 are Phase 1 (built). The DPM-driven pipeline sync (Layer 3's first
-slice) is built** — see "Phase 2 — DPM pipeline sync" below. Still future, separate
+**Layers 1–2 are Phase 1 (built). The curation-pipeline-driven sync (Layer 3's first
+slice) is built** — see "Phase 2 — curation pipeline sync" below. Still future, separate
 briefs: Published-trigger fan-out, folder-stamping at intake, dissemination tracking.
 
 ## Layout
@@ -115,13 +115,15 @@ Layers 2+3 (`layer2_odrive.py`, `reconcile.py`, `master_inventory.xlsx`) are
 **local-only** — they need the `O:` drive, which a hosted runner can't reach. Commit
 each local run so every refresh is a diffable commit.
 
-## Phase 2 — DPM pipeline sync (GitHub Actions, daily)
+## Phase 2 — curation pipeline sync (GitHub Actions, weekly)
 
-When a curator marks a dataset `Done!` in the DPM Workflows sheet's `Completed` tab,
-`.github/workflows/nanda-curation.yml` (daily 06:17 UTC + manual `workflow_dispatch`) runs:
+When a curator marks a dataset `Done!` in the NaNDA Curation Pipeline sheet's
+`Completed` tab, `.github/workflows/nanda-curation.yml` (weekly, Mondays 06:17 UTC +
+manual `workflow_dispatch`) runs:
 
 ```
-pull_dpm_completed.py    ->  appends NEW deposits to deposit_status.csv
+pull_curation_pipeline_completed.py
+                         ->  appends NEW deposits to deposit_status.csv
                              (blank status = needs Lindsay's review; never auto-`current`)
 build_deposit_status.py  ->  regenerates mechanical columns, preserves all curation,
                              carries forward rows not yet in the seed
@@ -147,11 +149,11 @@ hatch for edge cases.
 Two credentials, both created manually, both stored as repository secrets in
 **this** repo (Settings → Secrets and variables → Actions):
 
-1. **`GOOGLE_SHEETS_CREDENTIALS`** — read access to the DPM sheet.
+1. **`GOOGLE_SHEETS_CREDENTIALS`** — read access to the NaNDA Curation Pipeline sheet.
    - In Google Cloud Console, create (or reuse) a service account
      (no roles needed; it only reads a sheet shared with it).
    - Create a JSON key for it and download the file.
-   - Share the DPM Workflows sheet with the service account's email
+   - Share the NaNDA Curation Pipeline sheet with the service account's email
      (`...@...iam.gserviceaccount.com`) as **Viewer**.
    - Paste the entire JSON file's contents as the secret value.
    - For local runs instead: save the file as `credentials/service_account.json`

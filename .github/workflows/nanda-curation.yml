@@ -1,6 +1,6 @@
 name: NaNDA_Curation_Pipeline
 
-# Daily pull of newly-completed datasets from the DPM Workflows sheet, DataCite
+# Weekly pull of newly-completed datasets from the NaNDA Curation Pipeline sheet, DataCite
 # enrichment, and export of the public seed file into usage-metrics/inventory.csv.
 # Layers 2+3 (O: drive scan, reconcile, master_inventory.xlsx) stay LOCAL-ONLY —
 # a hosted runner cannot reach the O: drive. This workflow never touches them.
@@ -11,9 +11,9 @@ name: NaNDA_Curation_Pipeline
 
 on:
   schedule:
-    # Daily, 06:17 UTC (off the :00 rush; curators complete datasets infrequently,
-    # so daily is plenty and polite to the Sheets API)
-    - cron: '17 6 * * *'
+    # Weekly, Mondays 06:17 UTC (off the :00 rush; curators complete datasets
+    # infrequently, so weekly is plenty and polite to the Sheets API)
+    - cron: '17 6 * * 1'
   workflow_dispatch:  # manual trigger for first verification and ad-hoc runs
 
 permissions:
@@ -48,11 +48,11 @@ jobs:
       working-directory: nanda-inventory
       run: pip install -r requirements.txt
 
-    - name: Pull DPM Completed tab
+    - name: Pull NaNDA Curation Pipeline Completed tab
       working-directory: nanda-inventory
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
-      run: python pull_dpm_completed.py
+      run: python pull_curation_pipeline_completed.py
 
     - name: Rebuild deposit_status.csv (preserves curation)
       working-directory: nanda-inventory
@@ -72,7 +72,7 @@ jobs:
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add deposit_status.csv data/published_catalog.csv
-        git diff --quiet && git diff --staged --quiet || git commit -m "DPM sync $(date +'%Y-%m-%d')"
+        git diff --quiet && git diff --staged --quiet || git commit -m "Curation pipeline sync $(date +'%Y-%m-%d')"
         git pull --rebase origin "${GITHUB_REF_NAME}"
         git push
         # "Committed is not done; done is a verified push" (memory/workflows/git-hygiene.md)
@@ -90,7 +90,7 @@ jobs:
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add inventory.csv
-        git diff --quiet && git diff --staged --quiet || git commit -m "Sync inventory.csv from nanda-inventory DPM pipeline $(date +'%Y-%m-%d')"
+        git diff --quiet && git diff --staged --quiet || git commit -m "Sync inventory.csv from nanda-inventory curation pipeline $(date +'%Y-%m-%d')"
         git pull --rebase origin main
         git push origin HEAD:main
         local_sha=$(git rev-parse HEAD)

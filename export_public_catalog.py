@@ -21,7 +21,7 @@ rows — deposit_status.csv only tracks published deposits, so those rows have n
 counterpart here and must pass through untouched). This script only:
   1. drops rows whose study_id is `superseded` in deposit_status.csv, and
   2. appends rows tracked in deposit_status.csv but missing from inventory.csv
-     (i.e. new DPM-sourced deposits), built to the same conventions as
+     (i.e. new curation-pipeline-sourced deposits), built to the same conventions as
      usage-metrics/add_to_inventory.py: full NaNDA-prefixed title, V-normalized
      version, M/D/YYYY version_date from DataCite `created`, sites-form landing URL,
      and the same strict validation gates. A row that fails to fetch or validate is

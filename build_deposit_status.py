@@ -167,7 +167,7 @@ def curate(study_id: str, existing: dict[str, dict]) -> dict:
     elif existing.get(study_id) is not None:
         prev = (ex.get("status") or "").strip()
         if prev == "":
-            # Pending review from an earlier run (e.g. a DPM-sourced row). Blank stays
+            # Pending review from an earlier run (e.g. a curation-pipeline-sourced row). Blank stays
             # blank across reruns — NEVER auto-promoted to `current`; only a human sets
             # a status. (Before this guard, a blank row silently became `current` on
             # the next rerun via DEFAULT_STATUS.)
@@ -217,7 +217,7 @@ def main() -> int:
         })
 
     # Carry forward rows that exist in deposit_status.csv but not (yet) in the seed —
-    # e.g. rows appended by pull_dpm_completed.py before they reach usage-metrics'
+    # e.g. rows appended by pull_curation_pipeline_completed.py before they reach usage-metrics'
     # inventory.csv, or rows dropped from the public export (superseded). The row set
     # is seed UNION existing; nothing tracked here is ever silently dropped.
     seed_ids = {r["study_id"] for r in rows}
