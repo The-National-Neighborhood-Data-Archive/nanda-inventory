@@ -3,7 +3,7 @@ Phase 2, step 0: pull newly-completed datasets from the NaNDA Curation Pipeline 
 
 Reads the `Completed` tab of the NaNDA Curation Pipeline sheet (Google Sheets API,
 service-account auth, read-only), filters to rows a curator marked `Done!`, and appends
-any deposit not already tracked in deposit_status.csv as a NEW row with a blank `status`
+any deposit not already tracked in deposit_status.csv as a NEW row with a blank `deposit_state`
 ("needs review" — never auto-set to `current`), matching the curatorial convention
 documented in build_deposit_status.py.
 
@@ -12,7 +12,7 @@ log readability). Everything else is derived:
   - archive        <- DOI form: 10.3886/ICPSR... -> ICPSR ; 10.3886/E... -> openICPSR
   - deposit_via    <- always RDE (every new deposit goes through RDE; `legacy` is
                       backfill-only, per usage-metrics add_to_inventory.py)
-  - status / related_to_doi / topic_folder  <- blank (curatorial review)
+  - deposit_state / related_to_doi / topic_folder  <- blank (curatorial review)
 
 Messy cells are skipped and logged, never guessed at:
   - Study # like "38528/237313" (two IDs in one cell) -> skipped, listed for Lindsay
@@ -59,7 +59,7 @@ DONE_VALUE = "done!"          # matched case-insensitively, trimmed
 REQUIRED_HEADERS = ["icpsr study #", "status", "doi"]   # matched case-insensitively
 NAME_HEADER = "dataset name"  # optional, for logging only
 
-DEPOSIT_COLUMNS = ["study_id", "archive", "deposit_via", "status", "seed_doi",
+DEPOSIT_COLUMNS = ["study_id", "archive", "deposit_via", "deposit_state", "seed_doi",
                    "resolve_doi_for_datacite", "related_to_doi", "topic_folder",
                    "topic_review", "note"]
 
@@ -201,8 +201,10 @@ def main() -> int:
 
     added, skipped, empty_count, already = [], [], 0, []
     for row in values[1:]:
-        status = cell(row, "status").lower()
-        if status != DONE_VALUE:
+        # NB: this is the SHEET's own `status` column ("Done!" tracker), a third
+        # axis unrelated to deposit_state or usage-metrics' published/unpublished.
+        sheet_status = cell(row, "status").lower()
+        if sheet_status != DONE_VALUE:
             continue
         raw_id = cell(row, "icpsr study #")
         raw_doi = cell(row, "doi")
@@ -232,7 +234,7 @@ def main() -> int:
             "study_id": sid,
             "archive": archive,
             "deposit_via": "RDE",
-            "status": "",                       # blank = needs curatorial review
+            "deposit_state": "",                # blank = needs curatorial review
             "seed_doi": doi,
             "resolve_doi_for_datacite": resolve_doi_for(doi),
             "related_to_doi": "",
@@ -251,7 +253,7 @@ def main() -> int:
              f"Done! rows with no ID/DOI  : {empty_count} (nothing to look up yet)"]
     if added:
         lines.append(f"**NEW deposits appended to deposit_status.csv "
-                     f"(blank status — need Lindsay's review): {len(added)}**")
+                     f"(blank deposit_state — need Lindsay's review): {len(added)}**")
         for r in added:
             lines.append(f"  - {r['study_id']}  {r['archive']:<9} {r['seed_doi']}")
     else:

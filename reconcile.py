@@ -166,7 +166,7 @@ def main() -> int:
         cat = catalog.get(sid, {})
         topic = dep.get("topic_folder", "").strip()
         row = {
-            "study_id": sid, "status": dep.get("status", ""),
+            "study_id": sid, "deposit_state": dep.get("deposit_state", ""),
             "title": cat.get("title", ""), "version": cat.get("version", ""),
             "version_date": cat.get("version_date", ""), "seed_doi": dep.get("seed_doi", ""),
             "resolve_doi_used": cat.get("resolve_doi_used", ""),

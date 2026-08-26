@@ -1,5 +1,5 @@
 """
-Generate deposit_status.csv — the canonical row set + status source for Layer 1.
+Generate deposit_status.csv — the canonical row set + deposit_state source for Layer 1.
 
 The catalog model changed: we no longer dedup. All published deposits stay as their own
 row; relationships between them are expressed via `related_to_doi` rather than collapsed.
@@ -17,7 +17,7 @@ resolve_doi_for_datacite — the value Layer 1 starts the fallback chain from:
 Layer 1 keeps a runtime fallback (base -> ICPSR{study_id} twin) for any future E-form whose
 base 404s, so the chain is robust even if a row isn't pre-flagged here.
 
-Columns: study_id, archive, deposit_via, status, seed_doi, resolve_doi_for_datacite,
+Columns: study_id, archive, deposit_via, deposit_state, seed_doi, resolve_doi_for_datacite,
          related_to_doi, note
 
 Output: deposit_status.csv (repo root). Offline — no network.
@@ -38,14 +38,14 @@ OUT_CSV = REPO / "deposit_status.csv"
 # is the ICPSR form; the seed inventory.csv still lists the openICPSR draft E-form.
 TWIN_OVERRIDE = {"301419", "302178"}
 
-COLUMNS = ["study_id", "archive", "deposit_via", "status", "seed_doi",
+COLUMNS = ["study_id", "archive", "deposit_via", "deposit_state", "seed_doi",
            "resolve_doi_for_datacite", "related_to_doi", "topic_folder",
            "topic_review", "note"]
 
 # --- Curatorial baseline (the human-judgment layer; can't be derived from ICPSR or O:) ----
-# `status` vocabulary (the three-value model): current | alternate-deposit | superseded.
-# A blank status means "needs review" — applied to deposits that surface from the seed after
-# bootstrap, so dataset identity stays a human call rather than a silent "current".
+# `deposit_state` vocabulary (the three-value model): current | alternate-deposit | superseded.
+# A blank deposit_state means "needs review" — applied to deposits that surface from the seed
+# after bootstrap, so dataset identity stays a human call rather than a silent "current".
 #
 # These five non-current classifications fell out of the dedup worklist (not title-matching):
 #   same date range as the ICPSR twin  -> alternate-deposit
@@ -66,7 +66,7 @@ BASELINE = {
     "110663": ("superseded", "10.3886/ICPSR38598.v2",
                "superseded by ICPSR38598 (Land Cover); older 2001-2016 vintage"),
 }
-DEFAULT_STATUS = "current"   # known bootstrap deposits not in BASELINE
+DEFAULT_STATE = "current"    # known bootstrap deposits not in BASELINE
 NEEDS_REVIEW = ""            # blank -> needs review, for deposits surfacing after bootstrap
 # Legacy placeholder values that predate the curatorial model; treat as uncurated.
 UNCURATED = {"", "published"}
@@ -93,7 +93,7 @@ TOPIC = {
     "38605": "public_transit", "38606": "urbanicity", "38649": "crime",
     "38858": "weather", "38974": "essential_workers", "39093": "HMDA",
     # Cluster folders confirmed (the alternate/superseded/co-canonical relationships are
-    # already captured in status + related_to_doi; the folder itself is unambiguous).
+    # already captured in deposit_state + related_to_doi; the folder itself is unambiguous).
     "38598": "land_cover", "220701": "land_cover", "110663": "land_cover",
     "39378": "hospitals", "222901": "hospitals",
     "127681": "education_training", "127682": "education_training",
@@ -140,7 +140,7 @@ def load_existing_rows() -> list[dict]:
 def load_existing_curation() -> dict[str, dict]:
     """Preserve hand-edited curatorial columns across re-runs, keyed by study_id."""
     return {
-        r["study_id"]: {"status": r.get("status", ""),
+        r["study_id"]: {"deposit_state": r.get("deposit_state", ""),
                         "related_to_doi": r.get("related_to_doi", ""),
                         "topic_folder": r.get("topic_folder", ""),
                         "topic_review": r.get("topic_review", ""),
@@ -157,28 +157,28 @@ def curate(study_id: str, existing: dict[str, dict]) -> dict:
     drafted from TOPIC, and left blank with a TOPIC_REVIEW reason where ambiguous.
     """
     ex = existing.get(study_id) or {}
-    # status / related_to_doi / note
-    if (ex.get("status") or "").strip() not in UNCURATED:
-        status = ex["status"].strip()
+    # deposit_state / related_to_doi / note
+    if (ex.get("deposit_state") or "").strip() not in UNCURATED:
+        state = ex["deposit_state"].strip()
         related = ex.get("related_to_doi", "").strip()
         note = ex.get("note", "").strip()
     elif study_id in BASELINE:
-        status, related, note = BASELINE[study_id]
+        state, related, note = BASELINE[study_id]
     elif existing.get(study_id) is not None:
-        prev = (ex.get("status") or "").strip()
+        prev = (ex.get("deposit_state") or "").strip()
         if prev == "":
             # Pending review from an earlier run (e.g. a curation-pipeline-sourced row). Blank stays
             # blank across reruns — NEVER auto-promoted to `current`; only a human sets
-            # a status. (Before this guard, a blank row silently became `current` on
-            # the next rerun via DEFAULT_STATUS.)
-            status, related = NEEDS_REVIEW, ex.get("related_to_doi", "").strip()
+            # a deposit_state. (Before this guard, a blank row silently became `current` on
+            # the next rerun via DEFAULT_STATE.)
+            state, related = NEEDS_REVIEW, ex.get("related_to_doi", "").strip()
             note = ex.get("note", "").strip() or "NEW DEPOSIT - needs review"
         else:
             # Legacy "published" placeholder from before the curatorial model.
-            status, related = DEFAULT_STATUS, ex.get("related_to_doi", "").strip()
+            state, related = DEFAULT_STATE, ex.get("related_to_doi", "").strip()
             note = ex.get("note", "").strip()
     else:
-        status, related, note = NEEDS_REVIEW, "", "NEW DEPOSIT - needs review"
+        state, related, note = NEEDS_REVIEW, "", "NEW DEPOSIT - needs review"
 
     # topic_folder is curatorial (preserve hand edit, else draft from TOPIC).
     # topic_review is a DERIVED hint that refreshes each run (not hand-curated) — it only
@@ -186,7 +186,7 @@ def curate(study_id: str, existing: dict[str, dict]) -> dict:
     topic = (ex.get("topic_folder") or "").strip() or TOPIC.get(study_id, "")
     topic_review = "" if topic else TOPIC_REVIEW.get(study_id, "needs topic_folder review")
 
-    return {"status": status, "related_to_doi": related, "note": note,
+    return {"deposit_state": state, "related_to_doi": related, "note": note,
             "topic_folder": topic, "topic_review": topic_review}
 
 
@@ -207,7 +207,7 @@ def main() -> int:
             "study_id": sid,
             "archive": s["archive"].strip(),
             "deposit_via": s.get("deposit_via", "").strip(),
-            "status": cur["status"],                # curatorial role (not seed published flag)
+            "deposit_state": cur["deposit_state"],  # curatorial role (not seed published flag)
             "seed_doi": seed_doi,
             "resolve_doi_for_datacite": resolve,
             "related_to_doi": cur["related_to_doi"],
@@ -236,7 +236,7 @@ def main() -> int:
     eform = sum(1 for r in rows if not is_icpsr_form(r["seed_doi"]) and r["study_id"] not in TWIN_OVERRIDE)
     twins = [r for r in rows if r["study_id"] in TWIN_OVERRIDE]
     related = [r for r in rows if r["related_to_doi"]]
-    by_status = Counter((r["status"] or "(needs review)") for r in rows)
+    by_state = Counter((r["deposit_state"] or "(needs review)") for r in rows)
 
     print(f"Wrote {len(rows)} deposit rows -> {OUT_CSV}")
     if carried:
@@ -246,10 +246,10 @@ def main() -> int:
     print(f"  resolve via base (E-form)      : {eform}")
     print(f"  twin override (ICPSR-form twin): {len(twins)}  "
           f"({', '.join(r['study_id'] for r in twins)})")
-    print(f"  status breakdown               : {dict(by_status)}")
+    print(f"  deposit_state breakdown        : {dict(by_state)}")
     print(f"  rows with related_to_doi ({len(related)}):")
     for r in related:
-        print(f"      {r['study_id']:>7}  [{r['status']}]  -> {r['related_to_doi']}")
+        print(f"      {r['study_id']:>7}  [{r['deposit_state']}]  -> {r['related_to_doi']}")
 
     topic_filled = [r for r in rows if r["topic_folder"]]
     topic_blank = [r for r in rows if not r["topic_folder"]]

@@ -6,7 +6,7 @@ Reads deposit_status.csv + data/published_catalog.csv (post-Layer-1) and rewrite
 study_id, archive, deposit_via, status, title, version, version_date, doi, url).
 
 Status vocabulary mapping (the two files track different axes):
-  nanda-inventory `status` (dataset identity)     -> usage-metrics `status` (publication)
+  nanda-inventory `deposit_state` (dataset identity) -> usage-metrics `status` (publication)
   ------------------------------------------------------------------------------------
   current            -> published   (live, downloadable — track usage)
   alternate-deposit  -> published   (live, downloadable — track usage)
@@ -165,7 +165,7 @@ def main() -> int:
     inv_ids = {r["study_id"].strip() for r in inventory}
 
     superseded = {d["study_id"].strip() for d in deposits
-                  if d.get("status", "").strip() == "superseded"}
+                  if d.get("deposit_state", "").strip() == "superseded"}
 
     kept, dropped = [], []
     for r in inventory:

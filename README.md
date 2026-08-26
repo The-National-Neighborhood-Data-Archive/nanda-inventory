@@ -76,10 +76,10 @@ reconcile.py           ->  data/published_catalog_joined.csv, drift.csv, oracle_
 Dataset identity is a human judgment call, so the row set lives in `deposit_status.csv`, the
 single hand-curated control file (everything else is derived from ICPSR/DataCite or the O:
 drive). `build_deposit_status.py` regenerates the mechanical columns (seed-derived fields,
-`resolve_doi_for_datacite`) but **preserves** the curatorial ones — `status`
+`resolve_doi_for_datacite`) but **preserves** the curatorial ones — `deposit_state`
 (`current` / `alternate-deposit` / `superseded`), `related_to_doi`, `topic_folder`, `note` —
 across re-runs, never clobbering hand edits. New deposits surfacing from the seed arrive with
-a blank status (needs review), never silently `current`.
+a blank `deposit_state` (needs review), never silently `current`.
 
 ## Inputs
 
@@ -124,7 +124,7 @@ manual `workflow_dispatch`) runs:
 ```
 pull_curation_pipeline_completed.py
                          ->  appends NEW deposits to deposit_status.csv
-                             (blank status = needs Lindsay's review; never auto-`current`)
+                             (blank deposit_state = needs Lindsay's review; never auto-`current`)
 build_deposit_status.py  ->  regenerates mechanical columns, preserves all curation,
                              carries forward rows not yet in the seed
 layer1_catalog.py        ->  DataCite enrichment -> data/published_catalog.csv
@@ -136,8 +136,8 @@ pushes the exported `inventory.csv` to the `usage-metrics` repo. Both pushes are
 verified against the remote before the job reports success. Check the run's summary
 page — new deposits and skipped rows needing manual attention are listed there.
 
-Status mapping into `usage-metrics` (different axes — identity vs. publication):
-`current`, `alternate-deposit`, and blank/needs-review all export as `published`
+`deposit_state` mapping into `usage-metrics`' `status` (different axes — identity vs.
+publication): `current`, `alternate-deposit`, and blank/needs-review all export as `published`
 (a Done! deposit with a resolving DOI is live; the pending review concerns dataset
 *identity*, not publication). `superseded` rows are dropped from `inventory.csv`
 entirely. `unpublished` rows already in `inventory.csv` pass through untouched.

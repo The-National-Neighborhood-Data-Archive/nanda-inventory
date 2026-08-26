@@ -11,7 +11,8 @@ multi_subfolder,38586,parks,chosen: parks_tract_2018; parks_zcta_2018
 multi_subfolder,38597,pollution,chosen: polluting_sites_tract20_1987-2021; polluting_sites_zcta20_1987-2021
 multi_subfolder,38605,public_transit,chosen: transit_tract2024; transit_tract_2016-2018; transit_zcta2024; transit_zcta_2016-2018
 multi_subfolder,38858,weather,chosen: cold_days_p1_county_2002-2016; cold_days_p5_county_2002-2016; cold_days_precip_county_2002-2016; freezing_days_county_2002-2016; freezing_days_precip_county_2002-2016; hot_days_p95_county_2002-2016; rainsnow_county_2002-2016; rainy_days_county_2002-2016; snowy_days_county_2002-2016; temp_daily_avg_county_2002-2016
-catalog_no_o_files,120088,,"ZCTA merge CODE deposit, not a dataset - folder unclear (crosswalks? ZIPtoZCTA?)"
+no_o_unit_in_folder,120088,crosswalks,chosen: 
+matched_unit_no_dict,120088,crosswalks, has no parseable dict on disk
 catalog_no_o_files,141121,,NO O: FILES - published to NaNDA as an external dataset (no local curation files)
 catalog_no_o_files,190141,,NO O: FILES - special release built on Dropbox from merged NaNDA data (one-off)
 multi_subfolder,230941,PRISM,chosen: ppt; tmax
@@ -58,6 +59,7 @@ o_unit_unselected,,pollution,polluting_sites_zcta_2000-2018 (2000-2018) not matc
 o_unit_unselected,,post_offices_banks,pobank_1990-2022 (1990-2022) not matched to a deposit
 o_unit_unselected,,post_offices_banks,pobank_tract_2003-2017 (2003-2017) not matched to a deposit
 o_unit_unselected,,post_offices_banks,pobank_zcta_2003-2017 (2003-2017) not matched to a deposit
+o_topic_no_catalog,,public_transit_quality,6 O: unit(s); no catalog deposit maps here
 o_unit_unselected,,recreation,recreation_1990-2021 (1990-2021) not matched to a deposit
 o_unit_unselected,,religious_civic_social_orgs,relcivsoc_1990-2021 (1990-2021) not matched to a deposit
 o_unit_unselected,,religious_civic_social_orgs,relcivsoc_tract_2003-2017 (2003-2017) not matched to a deposit
@@ -70,6 +72,8 @@ o_unit_unselected,,retail_establishments,retail_tract_2006-2015 (2006-2015) not 
 o_unit_unselected,,retail_establishments,retail_zcta_2003-2017 (2003-2017) not matched to a deposit
 o_unit_unselected,,schools,neighborhood_school_gap_tract_supp_0910_1516 (2009-2010) not matched to a deposit
 o_unit_unselected,,schools,neighborhood_school_gap_zcta_supp_0910_1516 (2009-2010) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_2019-2023 (2019-2023) not matched to a deposit
+o_unit_unselected,,ses_demographics,sesdem_2020-2024 (2020-2024) not matched to a deposit
 o_unit_unselected,,ses_demographics,sesdem_tract_1990 (1990) not matched to a deposit
 o_unit_unselected,,ses_demographics,sesdem_tract_1990-2010 (1990-2010) not matched to a deposit
 o_unit_unselected,,ses_demographics,sesdem_tract_2000-2010 (2000-2010) not matched to a deposit

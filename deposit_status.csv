@@ -1,4 +1,4 @@
-study_id,archive,deposit_via,status,seed_doi,resolve_doi_for_datacite,related_to_doi,topic_folder,topic_review,note
+study_id,archive,deposit_via,deposit_state,seed_doi,resolve_doi_for_datacite,related_to_doi,topic_folder,topic_review,note
 38506,ICPSR,legacy,current,10.3886/ICPSR38506.v2,10.3886/ICPSR38506.v2,,voting,,
 38528,ICPSR,legacy,current,10.3886/ICPSR38528.v6,10.3886/ICPSR38528.v6,,ses_demographics,,
 38559,ICPSR,legacy,current,10.3886/ICPSR38559.v1,10.3886/ICPSR38559.v1,,broadband,,

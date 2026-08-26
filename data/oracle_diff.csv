@@ -18,7 +18,6 @@ study_id,in_oracle,topic_check,uid_check,derived_unique_ids,oracle_unique_ids,de
 38974,Y,match,oracle_unfilled,tract_fips20; zcta20,,oracle subfolder=
 39093,Y,match,oracle_unfilled,tract_fips10; year,,oracle subfolder=
 39378,Y,match,oracle_unfilled,tract_fips10; tract_fips20; zcta10; zcta20,,oracle subfolder=
-110663,N,,,tract_fips,,not in v03 oracle
 120088,N,,,,,not in v03 oracle
 127681,Y,match,match,tract_fips10; year,tract_fips10 year,oracle subfolder=edtrain_zcta_2003-2017
 127682,Y,match,match,zcta19; year,zcta19 year,oracle subfolder=edtrain_zcta_2003-2017
@@ -49,3 +48,4 @@ study_id,in_oracle,topic_check,uid_check,derived_unique_ids,oracle_unique_ids,de
 302343,Y,match,oracle_unfilled,tract_fips10; year; tract_fips20; tract_fips22; zcta10; zcta20,,oracle subfolder=training_vocation_1990-2022
 302937,N,,,tract_fips20; tract_fips22; zcta20,,not in v03 oracle
 305511,N,,,tract_fips20; tract_fips22; zcta20,,not in v03 oracle
+110663,N,,,tract_fips,,not in v03 oracle
